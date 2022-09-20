@@ -26,7 +26,22 @@ const checkUser = async (email) => {
     )
   }
 
+  const getUserByEmail = async (email) => {
+	const [user] = await dataSource.query(`
+		SELECT 
+			id
+			name,
+			email,
+			password
+		FROM users
+		WHERE email=?`, [email]
+	)
+
+	return user
+}
+
 module.exports = { 
 	createUser,
-    checkUser
+    checkUser,
+    getUserByEmail
 }

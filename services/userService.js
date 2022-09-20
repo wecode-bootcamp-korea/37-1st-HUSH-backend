@@ -8,7 +8,7 @@ const validatePassword = (password) => {
 
 	if (!passwordRegex.test(password)) {
 		const error = new Error('INVALID_PASSWORD')
-		error.statusCode = 400
+		error.statusCode = 200
 
 		throw error
 	}
@@ -35,8 +35,34 @@ const checkUser = async (email) => {
 	return await userDao.checkUser(email)
 }
 
+const signIn = async (email, password) => {
+
+	const user = await userDao.getUserByEmail(email)
+
+    if(!user){
+        const error = new Error('WRONG_EMAIL')
+		error.statusCode = 200
+		throw error
+    }
+
+	const match = await bcrypt.compare(password, user.password);
+
+	if (!match) {
+		const error = new Error('WRONG_PASSWORD')
+		error.statusCode = 200
+		throw error
+	}
+
+	const accessToken = jwt.sign({ id: user.id }, process.env.KEY)
+
+	return accessToken
+
+}
+
+
 
 module.exports = { 
     signUp,
-    checkUser
+    checkUser,
+    signIn
 }
