@@ -30,7 +30,13 @@ const signUp = async (email, password, name, address) => {
 	return await userDao.createUser(email, hashedPassword, name, address)
 }
 
+const checkUser = async (email) => {
+
+	return await userDao.checkUser(email)
+}
+
 
 module.exports = { 
-    signUp
+    signUp,
+    checkUser
 }
