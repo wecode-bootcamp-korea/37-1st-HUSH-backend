@@ -24,29 +24,8 @@ const signUp = async (req, res) => {
 
   }
 
-  
-const signIn = async (email, password) => {
-
-	const user = await userDao.getUserByEmail(email)
-
-	const match = await bcrypt.compare(password, user.password);
-
-	if (!match) {
-		const error = new Error('WRONG_PASSWORD')
-		error.statusCode = 401
-
-		throw error
-	}
-
-	const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET)
-
-	return accessToken
-
-}
-
   module.exports = {
 	signUp,
-    checkUser,
-    signIn
+    checkUser
 }
   
