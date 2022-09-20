@@ -1,8 +1,8 @@
 -- migrate:up
-CREATE TABLE divisions (
+CREATE TABLE order_status (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
+    status VARCHAR(50),
     PRIMARY KEY (id)
-)
+);
 -- migrate:down
-DROP TABLE divisions;
+DROP TABLE order_status;
