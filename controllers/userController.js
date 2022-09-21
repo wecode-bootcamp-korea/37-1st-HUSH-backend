@@ -18,7 +18,7 @@ const signUp = catchAsync(async (req, res) => {
       
     result = await userService.checkUser(email);
 
-    if (result.length == 0)  res.status(200).json({ message : "EXCESS_SUCCESS"});
+    if (!result) return res.status(200).json({ message : "EXCESS_SUCCESS"});
 
     res.status(200).json({ message : "KEY_ALREADY_EXISTS"});
 

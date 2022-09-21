@@ -17,13 +17,15 @@ const createUser = async (email, hashedPassword, name, address) => {
 
 const checkUser = async (email) => {
 
-    return await dataSource.query(`
-        SELECT email
-        FROM users
-        WHERE email = ? 
-        `,
+    const [result] =  await dataSource.query(`
+	SELECT EXISTS(
+		SELECT *
+		FROM users 
+		WHERE email = ?) AS boolean;`,
       [email]
     )
+	console.log(result.boolean)
+	return result;
   }
 
   const getUserByEmail = async (email) => {
