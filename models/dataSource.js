@@ -14,4 +14,4 @@ appDataSource.initialize()
         console.log("Data Source has been initialized!")
     })
 
-    module.exports = appDataSource;
+module.exports = appDataSource;
