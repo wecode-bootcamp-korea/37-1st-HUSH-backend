@@ -15,7 +15,8 @@ app.use(routes);
 app.use(globalErrorHandler);
 
 app.get('/ping', function (req, res, next) {
-    res.json({message : 'pong'})
-  })
+  res.status(200).json({message : 'pong'});
+    
+})
 
 app.listen(PORT, () => { console.log(`Running on port ${PORT}`);});
