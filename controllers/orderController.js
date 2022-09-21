@@ -1,13 +1,13 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const  orderService  = require('../services/orderService');
-const { catchAsync } = require('../utils/error')
+const  orderService  = require('../services/orderService.js');
+const { catchAsync } = require('../utils/error.js')
 
 const createOrder = catchAsync(async (req, res) => {
-    const { products, total, reqMessage, address } = req.body;
+    const { userId, total, reqMessage, address } = req.body;
       
-      await orderService.createOrder(products, total, reqMessage, address);
+      await orderService.createOrder(userId, total, reqMessage, address);
       
       res.status(201).json({ message : "SIGN_UP_SUCCESS"});
   

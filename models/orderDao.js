@@ -1,19 +1,5 @@
 const dataSource = require('./dataSource')
 
-const getCart = async (userId) => {
-
-    const result = await dataSource.query(`
-		SELECT 
-			product_id,
-            quantity
-		FROM carts
-		WHERE id = userId`, [userId]
-	)
-    return result;
-  }
-
-
-
 const createOrder = async (userId, reqMessage, address) => {
 
   await dataSource.query(`
@@ -31,13 +17,27 @@ const createOrder = async (userId, reqMessage, address) => {
 
   const orderId = await dataSource.query(`
     SELECT 
-    order_id
+        order_id
     FROM orders
-    WHERE id = userId`, [userId]
+    WHERE id = ?`, [userId]
     )
 
     return orderId[length-1].order_id;
 }
+
+const getCartTrue = async (userId) => {
+
+    const items = await dataSource.query(`
+        SELECT 
+            product_id,
+            quantity
+        FROM carts
+        WHERE user_id = ?`, [userId]
+    )
+
+    return items;
+
+  }
 
 const createOrderItems = async (orderId, products) => {    
 
@@ -85,10 +85,27 @@ const deductPoint = async (userId, total) => {
 
 }
 
+const deleteProductStuck = async (products) => {    
+
+    for(let i=0; i<products.length; i++){
+        await dataSource.query(`
+            UPDATE products 
+            SET quantity = quantity - ? 
+            WHERE id = ?`,
+        [products[i].quantity, products[i].id]
+        )
+    }
+    
+    
+
+}
+
 
 module.exports = {
     createOrder,
+    getCartTrue,
     createOrderItems,
     deleteCart,
-    deductPoint
+    deductPoint,
+    deleteProductStuck
 }
