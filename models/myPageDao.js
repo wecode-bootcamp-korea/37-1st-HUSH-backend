@@ -4,6 +4,7 @@ const getLike = async (userId) => {
     
   return await dataSource.query(`
     SELECT 
+        products.id as productId,
         products.name as productName, 
         products.price, 
         categories.name as categoryName
