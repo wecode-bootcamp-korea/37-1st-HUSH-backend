@@ -35,7 +35,7 @@ const signUp = catchAsync(async (req, res) => {
 
 
   module.exports = {
-	signUp,
+	  signUp,
     checkUser,
     signIn
 }
