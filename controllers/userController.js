@@ -16,7 +16,7 @@ const signUp = catchAsync(async (req, res) => {
   const checkUser = catchAsync(async (req, res) => {
     const { email } = req.body;
       
-    result = await userService.checkUser(email);
+    const result = await userService.checkUser(email);
 
     if (!result) return res.status(200).json({ message : "EXCESS_SUCCESS"});
 
@@ -39,4 +39,3 @@ const signUp = catchAsync(async (req, res) => {
     checkUser,
     signIn
 }
-  
