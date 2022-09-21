@@ -31,7 +31,7 @@ const checkUser = async (email) => {
   const getUserByEmail = async (email) => {
 	const [user] = await dataSource.query(`
 		SELECT 
-			id
+			id,
 			name,
 			email,
 			password
