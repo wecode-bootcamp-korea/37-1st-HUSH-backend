@@ -9,7 +9,7 @@ const createOrder = catchAsync(async (req, res) => {
       
       await orderService.createOrder(userId, total, reqMessage, address);
       
-      res.status(201).json({ message : "SIGN_UP_SUCCESS"});
+      res.status(201).json({ message : "ORDER_SUCCESS"});
   
   })
 

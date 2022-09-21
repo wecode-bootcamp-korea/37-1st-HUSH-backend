@@ -17,12 +17,11 @@ const createOrder = async (userId, reqMessage, address) => {
 
   const orderId = await dataSource.query(`
     SELECT 
-        order_id
+        id
     FROM orders
-    WHERE id = ?`, [userId]
+    WHERE user_id = ?`, [userId]
     )
-
-    return orderId[length-1].order_id;
+    return orderId[orderId.length-1].id;
 }
 
 const getCartTrue = async (userId) => {
@@ -43,7 +42,7 @@ const createOrderItems = async (orderId, products) => {
 
     for(let i=0; i<products.length; i++){
         await dataSource.query(`
-        INSERT INTO orders (
+        INSERT INTO order_items (
             order_id,
             product_id,
             quantity
@@ -59,14 +58,14 @@ const createOrderItems = async (orderId, products) => {
     return;
 }
 
-const deleteCart = async (products) => {    
+const deleteCart = async (userId, products) => {    
 
     for(let i=0; i<products.length; i++){
         await dataSource.query(`
-        UPDATE cart 
-        SET quantity = quentity - ? 
-        WHERE id = ?`,
-        [products[i].quantity, products[i].id]
+        UPDATE carts
+        SET quantity = quantity - ? 
+        WHERE product_id = ? AND user_id = ?`,
+        [products[i].quantity, products[i].product_id, userId]
         )    
     }
 
@@ -86,13 +85,13 @@ const deductPoint = async (userId, total) => {
 }
 
 const deleteProductStuck = async (products) => {    
-
+    console.log(products);
     for(let i=0; i<products.length; i++){
         await dataSource.query(`
             UPDATE products 
-            SET quantity = quantity - ? 
+            SET stock = stock - ? 
             WHERE id = ?`,
-        [products[i].quantity, products[i].id]
+        [products[i].quantity, products[i].product_id]
         )
     }
     

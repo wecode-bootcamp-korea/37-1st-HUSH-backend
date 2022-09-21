@@ -17,19 +17,21 @@ const createUser = async (email, hashedPassword, name, address) => {
 
 const checkUser = async (email) => {
 
-    return await dataSource.query(`
-        SELECT email
-        FROM users
-        WHERE email = ? 
-        `,
+    const [result] =  await dataSource.query(`
+	SELECT EXISTS(
+		SELECT *
+		FROM users 
+		WHERE email = ?) AS does_exist`,
       [email]
     )
+
+	return result.does_exist;
   }
 
   const getUserByEmail = async (email) => {
 	const [user] = await dataSource.query(`
 		SELECT 
-			id
+			id,
 			name,
 			email,
 			password
