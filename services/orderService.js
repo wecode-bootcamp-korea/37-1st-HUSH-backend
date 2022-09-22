@@ -1,6 +1,6 @@
-const DataSource = require('../models/dataSource');
+const datasource = require('../models/dataSource');
 const orderDao = require('../models/orderDao.js');
-const queryRunner = DataSource.createQueryRunner();
+const queryRunner = datasource.createQueryRunner();
 
 const createOrder = async (userId, total, reqMessage, address) => {
 
