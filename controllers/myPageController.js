@@ -6,11 +6,9 @@ const deleteLike = catchAsync(async (req, res) => {
       
       await myPageService.deleteLike(userId, products);
       
-      res.status(203).json({ message : "DELETE_SUCCESS"});
+      res.status(203).json({ message : "DELETELike_SUCCESS"});
   
   })
-
-
 
   module.exports = {
 	deleteLike
