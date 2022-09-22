@@ -1,27 +1,28 @@
-const dataSource = require('./dataSource')
+const dataSource = require('./dataSource');
+
 
 const createOrder = async (userId, reqMessage, address) => {
 
-  await dataSource.query(`
-	  INSERT INTO orders (
-        user_id,
-        req_message,
-        address
-		) VALUES (
-		        ?,
-                ?,
-                ?
-		)`,
-    [userId, reqMessage, address]
-  )
-
-  const orderId = await dataSource.query(`
-    SELECT 
-        id
-    FROM orders
-    WHERE user_id = ?`, [userId]
+    await dataSource.query(`
+        INSERT INTO orders (
+            user_id,
+            req_message,
+            address
+            ) VALUES (
+                    ?,
+                    ?,
+                    ?
+            )`,
+        [userId, reqMessage, address]
     )
-    return orderId[orderId.length-1].id;
+
+    const orderId = await dataSource.query(`
+        SELECT 
+            id
+        FROM orders
+        WHERE user_id = ?`, [userId]
+        )
+        return orderId[orderId.length-1].id;
 }
 
 const getCartTrue = async (userId) => {
@@ -31,7 +32,7 @@ const getCartTrue = async (userId) => {
             product_id,
             quantity
         FROM carts
-        WHERE user_id = ?`, [userId]
+        WHERE user_id = ? AND checkbox = 1`, [userId]
     )
 
     return items;
@@ -69,6 +70,13 @@ const deleteCart = async (userId, products) => {
         )    
     }
 
+    await dataSource.query(`
+        DELETE FROM
+            carts 
+        WHERE 
+            quantity = 0`
+    )
+
     return;
 
 }
@@ -85,7 +93,6 @@ const deductPoint = async (userId, total) => {
 }
 
 const deleteProductStuck = async (products) => {    
-    console.log(products);
     for(let i=0; i<products.length; i++){
         await dataSource.query(`
             UPDATE products 
@@ -98,7 +105,6 @@ const deleteProductStuck = async (products) => {
     
 
 }
-
 
 module.exports = {
     createOrder,

@@ -1,19 +1,35 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-
+const DataSource = require('../models/dataSource');
 const orderDao = require('../models/orderDao.js');
+const queryRunner = DataSource.createQueryRunner();
 
 const createOrder = async (userId, total, reqMessage, address) => {
-    
-	const orderId = await orderDao.createOrder(userId, reqMessage, address);
-    const products = await orderDao.getCartTrue(userId);
-    await orderDao.createOrderItems(orderId, products);
-    await orderDao.deleteProductStuck(products);
-    await orderDao.deleteCart(userId, products);
-    await orderDao.deductPoint(userId, total);
 
-    return;
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
     
+    try{
+        const orderId = await orderDao.createOrder(userId, reqMessage, address);
+        const products = await orderDao.getCartTrue(userId);
+        console.log(products);
+        await orderDao.createOrderItems(orderId, products);
+        await orderDao.deleteProductStuck(products);
+        await orderDao.deleteCart(userId, products);
+        await orderDao.deductPoint(userId, total);
+
+        await queryRunner.commitTransaction();
+
+        await queryRunner.release();
+
+        return;
+
+    } catch (err) {
+        await queryRunner.rollbackTransaction();
+        const error = new Error('ROLLBACK');
+		error.statusCode = 400;
+		throw error
+        
+    } 
+	
 }
 module.exports = { 
     createOrder
