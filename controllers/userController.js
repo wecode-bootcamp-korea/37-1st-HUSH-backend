@@ -34,7 +34,7 @@ const signUp = catchAsync(async (req, res) => {
 })
 
 const getLikeList = catchAsync(async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req;
     
     const likes = await userService.getLikeList(userId);
     
