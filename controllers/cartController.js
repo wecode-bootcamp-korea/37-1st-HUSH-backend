@@ -1,6 +1,5 @@
 const { cartService } = require('../services');
-// const { catchAsync } = require('../utils/error');
-////////////////////////////////////////////////
+
 const addCart = async (req, res) => {
   const { productId, quantity, userId } = req.body; //엑세스 토큰 활성화 시 userId 제거
   // const userId = req.user.id;  //엑세스 토큰 활성화 시 주석 제거 (productRouter - loginRequired 활성화 시)
