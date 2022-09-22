@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken')
 
 const  userService  = require('../services/userService');
 const { catchAsync } = require('../utils/error');
-const { validToken } = require('../utils/auth');
 
 const signUp = catchAsync(async (req, res) => {
     const { email, password, name, address } = req.body;
@@ -39,7 +38,7 @@ const getLikeList = catchAsync(async (req, res) => {
     
     const likes = await userService.getLikeList(userId);
     
-    res.status(201).json({ likes : likes});
+    res.status(200).json({ likes });
 
 })
 
