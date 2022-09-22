@@ -1,21 +1,33 @@
-require("dotenv").config();        
+require("dotenv").config();
+    
+const http    = require("http");
 const express = require('express');
-const morgan = require('morgan');   
-const cors = require('cors');   
-const { globalErrorHandler } = require('./utils/error');    
-
-const app = express();
-const PORT = process.env.PORT;
-const routes = require('./routers');
+const cors    = require('cors');
+const app     = express();
+const morgan  = require('morgan');
+const routes = require("./routes");
+const{ globalErrorHandler } = require('./utils/error')
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(routes);
-app.use(globalErrorHandler);
 
-app.get('/ping', function (req, res, next) {
-    res.json({message : 'pong'})
-  })
+app.get("/ping", (req, res) => {
+  res.json({ message: "pong" });
+});
 
-app.listen(PORT, () => { console.log(`Running on port ${PORT}`);});
+app.use(globalErrorHandler)
+
+const server = http.createServer(app);
+const PORT = process.env.PORT;
+
+const start = async () => {
+  try {
+    server.listen(PORT, () => console.log(`Server is listening on ${PORT}`));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+start();
