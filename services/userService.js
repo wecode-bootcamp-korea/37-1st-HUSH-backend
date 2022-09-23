@@ -52,7 +52,7 @@ const signIn = async (email, password) => {
 		error.statusCode = 200
 		throw error
 	}
-
+  console.log(user)
 	const accessToken = jwt.sign({ id: user.id }, process.env.KEY)
 
 	return accessToken
