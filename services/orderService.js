@@ -10,7 +10,6 @@ const createOrder = async (userId, total, reqMessage, address) => {
     try{
         const orderId = await orderDao.createOrder(userId, reqMessage, address);
         const products = await orderDao.getCartTrue(userId);
-        console.log(products);
         await orderDao.createOrderItems(orderId, products);
         await orderDao.deleteProductStuck(products);
         await orderDao.deleteCart(userId, products);
