@@ -59,10 +59,17 @@ const signIn = async (email, password) => {
 
 }
 
+const getLikeList = async (userId) => {
+
+	return await userDao.getLikeList(userId);
+    
+}
+
 
 
 module.exports = { 
     signUp,
     checkUser,
-    signIn
+    signIn,
+	getLikeList
 }
