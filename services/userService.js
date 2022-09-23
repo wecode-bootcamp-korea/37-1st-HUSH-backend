@@ -63,7 +63,6 @@ const deleteLike = async (userId, productId) => {
 
 	if (typeof productId == "string") productId = [...productId];
 
-	console.log(productId);
 	return await userDao.deleteLike(userId, productId);
 }
 

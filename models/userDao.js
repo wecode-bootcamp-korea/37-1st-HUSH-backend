@@ -47,8 +47,9 @@ const deleteLike = async (userId, productId) => {
 
 		await dataSource.query(`
 		DELETE FROM 
-			users
-		WHERE user_id= ? AND
+			likes
+		WHERE 
+			user_id= ? AND
 			product_id = ?`, 
 			[userId, el]
 		)
