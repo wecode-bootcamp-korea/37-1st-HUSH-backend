@@ -11,10 +11,10 @@ const getAllProducts = async () => {
           products.updated_at,
           products.category_id,
           products.created_at
-        FROM products
+           FROM products
         `)
   };
-  
+
   module.exports = {
     getAllProducts
  }
