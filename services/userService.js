@@ -59,9 +59,12 @@ const signIn = async (email, password) => {
 
 }
 
-const deleteLike = async (userId, products) => {
+const deleteLike = async (userId, productId) => {
 
-	return await userDao.deleteLike(userId, products);
+	if (typeof productId == "string") productId = [...productId];
+
+	console.log(productId);
+	return await userDao.deleteLike(userId, productId);
 }
 
 const getLikeList = async (userId) => {

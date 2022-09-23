@@ -34,12 +34,11 @@ const signUp = catchAsync(async (req, res) => {
 })
 
 const deleteLike = catchAsync(async (req, res) => {
-  const { products } = req.body;
+  const { productId } = req.query;
   const userId = req.userId;
+  await userService.deleteLike(userId, productId);
     
-  await userService.deleteLike(userId, products);
-    
-  res.status(203).json({ message : "DELETELIKE_SUCCESS"});
+  res.status(200).json({ message : "DELETELIKE_SUCCESS"});
 
 })
 
