@@ -81,9 +81,6 @@ module.exports = {
 	createUser,
     checkUser,
     getUserByEmail,
-<<<<<<< HEAD
-	deleteLike
-=======
+	deleteLike,
 	getLikeList
->>>>>>> 0a9da4f925680f30bbdbcd66d59389197a51a014
 }
