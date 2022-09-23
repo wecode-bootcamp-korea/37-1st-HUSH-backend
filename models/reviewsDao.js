@@ -7,7 +7,7 @@ const getAllreviews = async () => {
           reviews.content,
           reviews.user_id,
           reviews.created_at
-        FROM products
+        FROM reviews
         `)
   };
 
