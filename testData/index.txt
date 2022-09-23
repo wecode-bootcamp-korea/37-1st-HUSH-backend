@@ -1,0 +1,6 @@
+load data local infile "/home/dyjeong/project1/37-1st-HUSH-backend/testData/categories.csv" into table categories fields terminated by "," IGNORE 1 ROWS (name);
+load data local infile "/home/dyjeong/project1/37-1st-HUSH-backend/testData/carts.csv" into table carts fields terminated by "," IGNORE 1 ROWS (user_id,product_id,quantity,checkbox);
+load data local infile "/home/dyjeong/project1/37-1st-HUSH-backend/testData/reviews.csv" into table reviews fields terminated by "," IGNORE 1 ROWS (user_id,product_id,content);
+load data local infile "/home/dyjeong/project1/37-1st-HUSH-backend/testData/likes.csv" into table likes fields terminated by "," IGNORE 1 ROWS (user_id,product_id);
+load data local infile "/home/dyjeong/project1/37-1st-HUSH-backend/testData/users.csv" into table users fields terminated by "," IGNORE 1 ROWS (email,password,name,address);
+load data local infile "/home/dyjeong/project1/37-1st-HUSH-backend/testData/products.csv" into table products fields terminated by "," IGNORE 1 ROWS (id,name,price,category_id,thumbnail_image_url);
