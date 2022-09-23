@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const  userService  = require('../services/userService');
-const { catchAsync } = require('../utils/error')
+const { catchAsync } = require('../utils/error');
 
 const signUp = catchAsync(async (req, res) => {
     const { email, password, name, address } = req.body;
@@ -43,10 +43,19 @@ const deleteLike = catchAsync(async (req, res) => {
 
 })
 
+const getLikeList = catchAsync(async (req, res) => {
+  const { userId } = req;
+    
+    const likes = await userService.getLikeList(userId);
+    
+    res.status(200).json({ likes });
+
+})
 
   module.exports = {
 	  signUp,
     checkUser,
     signIn,
-    deleteLike
+    deleteLike,
+    getLikeList
 }
