@@ -4,6 +4,6 @@ const { reviewsController } = require('../controllers');
 
 const router = express.Router();
 
-router.get('/', reviewsController.getAllreviews)
+router.get('/:product_id', reviewsController.getreviews)
 
 module.exports = router;

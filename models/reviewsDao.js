@@ -1,16 +1,18 @@
 const appDataSource = require('./dataSource')
 
-const getAllreviews = async () => {
+const getreviews = async (product_id) => {
     return await appDataSource.query(`
-      SELECT
-          reviews.id,
-          reviews.content,
-          reviews.user_id,
-          reviews.created_at
-        FROM reviews
-        `)
+	select u.name, p.name, r.content, r.created_at
+	from reviews r
+	join users u
+	on u.id=r.user_id
+	join products p
+	on p.id=r.product_id
+	where product_id=?;
+        `, [product_id])
   };
 
+
   module.exports = {
-    getAllreviews
+    getreviews
  }

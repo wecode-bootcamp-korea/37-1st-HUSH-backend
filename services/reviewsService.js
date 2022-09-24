@@ -1,9 +1,9 @@
 const { reviewsDao } = require('../models')
 
-const getAllreviews = async () => {
-	return await reviewsDao.getAllreviews()
+const getreviews = async (product_id) => {
+	return await reviewsDao.getreviews(product_id)
 }
 
 module.exports = {
-    getAllreviews
+    getreviews
 }
