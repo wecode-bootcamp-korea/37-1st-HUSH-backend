@@ -2,7 +2,7 @@ const appDataSource = require('./dataSource')
 
 const getreviews = async (product_id) => {
     return await appDataSource.query(`
-	select u.name, p.name, r.content, r.created_at
+	select u.name as userName, p.name as productName, r.content, r.created_at as createdAt
 	from reviews r
 	join users u
 	on u.id=r.user_id
