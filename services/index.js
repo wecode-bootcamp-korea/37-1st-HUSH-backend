@@ -1,5 +1,7 @@
 const productsService = require('./productsService')
+const reviewsService = require('./reviewsService')
 
 module.exports = { 
-	productsService
+	productsService,
+	reviewsService
 }
