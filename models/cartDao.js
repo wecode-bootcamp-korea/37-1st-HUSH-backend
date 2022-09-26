@@ -14,7 +14,6 @@ const listUpCart = (userId) => {
     FROM carts c
     JOIN products p
      ON p.id=c.product_id
-    JOIN users u
     JOIN categories cate
      ON p.category_id=cate.id
     WHERE c.user_id=?`, [userId]
