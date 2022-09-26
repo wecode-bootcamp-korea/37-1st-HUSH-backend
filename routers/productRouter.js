@@ -4,6 +4,6 @@ const { validToken } = require('../utils/auth')
 
 const router = express.Router();
 
-router.post('/showproduct/:product_id/like', validToken, productController.inputLike);
+router.post('/showproduct/:productId/like', validToken, productController.inputLike);
 
 module.exports = router;

@@ -3,12 +3,12 @@ const { catchAsync } = require('../utils/error')
 
 const inputLike = catchAsync(async (req, res) => {
     
-    const { userId } = req.body;
-    const productId = req.params.product_id;
+    const userId = req.userId;
+    const productId = req.params.productId;
       
     await productService.inputLike(userId, productId);
       
-      res.status(201).json({ message : "INPUTLIKE_SUCCESS"});
+    res.status(201).json({ message : "INPUTLIKE_SUCCESS"});
   
   })
 
