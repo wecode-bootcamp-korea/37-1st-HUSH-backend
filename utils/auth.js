@@ -10,7 +10,7 @@ const validToken = async(req, res, next) =>{
     const decoded = jwt.verify(userToken, key);
     const {user_id} = decoded;
     req.userId = user_id;
-
+    // console.log(req.userId)
     return next();
 }
 

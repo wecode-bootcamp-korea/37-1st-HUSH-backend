@@ -1,8 +1,8 @@
 const { cartDao } = require('../models')
 
-const quantControl = (userId, productId, quantity) => {
+const quantControl = async (productId, quantity, userId) => {
 
-  return cartDao.quantControl(userId, productId, quantity)
+  return await cartDao.quantControl(productId, quantity, userId)
 }
 
 module.exports = {
