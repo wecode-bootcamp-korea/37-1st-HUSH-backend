@@ -5,10 +5,10 @@ const { catchAsync }  = require('../utils/error')
 const quantControl = catchAsync(async (req, res) => {
 	const { productId, quantity } = req.body
 	const userId = req.userId
+	const result = await cartService.quantControl(userId, productId, quantity)
+	// console.log(userId)
 
-	const data = await cartService.quantControl(userId, productId, quantity)
-
-	res.status(201).json ({ data })
+	res.status(201).json ({ result })
 })
 
 module.exports = {
