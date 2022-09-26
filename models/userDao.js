@@ -39,6 +39,21 @@ const checkUser = async (email) => {
 		WHERE email=?`, [email]
 	)
 }
+const deleteLike = async (userId, productId) => {
+
+	await dataSource.query(`
+	DELETE FROM 
+		likes
+	WHERE 
+		user_id= ? AND
+		product_id in (?)`, 
+		[userId, productId]
+	)
+
+	return;
+
+}
+
 
 const getLikeList = async (userId) => {
     
@@ -64,5 +79,6 @@ module.exports = {
 	createUser,
     checkUser,
     getUserByEmail,
+	deleteLike,
 	getLikeList
 }
