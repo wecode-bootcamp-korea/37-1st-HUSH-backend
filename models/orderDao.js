@@ -1,5 +1,19 @@
+const { UsingJoinColumnOnlyOnOneSideAllowedError } = require('typeorm');
 const dataSource = require('./dataSource');
 
+const checkPoint = async (userId, total) => {    
+
+    const [result] = await dataSource.query(`
+        SELECT 
+            point 
+        FROM 
+            users 
+        WHERE id = ?`,
+        [userId]
+    )
+
+    return result.point
+}
 
 const createOrder = async (userId, reqMessage, address) => {
 
@@ -22,26 +36,31 @@ const createOrder = async (userId, reqMessage, address) => {
         FROM orders
         WHERE user_id = ?`, [userId]
         )
+
         return orderId[orderId.length-1].id;
+
 }
 
-const getCartTrue = async (userId) => {
+const getCart= async (userId, productId) => {
 
     const items = await dataSource.query(`
         SELECT 
             product_id,
             quantity
-        FROM carts
-        WHERE user_id = ? AND checkbox = 1`, [userId]
+        FROM 
+            carts
+        WHERE 
+            user_id = ? AND product_id in (?)`
+    ,[userId, productId]
     )
 
     return items;
 
   }
 
-const createOrderItems = async (orderId, products) => {    
+const createOrderItems = async (orderId, items) => {    
 
-    for(let i=0; i<products.length; i++){
+    for(let i=0; i<items.length; i++){
         await dataSource.query(`
         INSERT INTO order_items (
             order_id,
@@ -52,30 +71,25 @@ const createOrderItems = async (orderId, products) => {
                     ?,
                     ?
             )`,
-        [orderId, products[i].product_id, products[i].quantity]
+        [orderId, items[i].product_id, items[i].quantity]
         )    
     }
 
     return;
 }
 
-const deleteCart = async (userId, products) => {    
-
-    for(let i=0; i<products.length; i++){
+const deleteCart = async (userId, items) => {    
+    for(let i=0; i<items.length; i++){
         await dataSource.query(`
-        UPDATE carts
-        SET quantity = quantity - ? 
-        WHERE product_id = ? AND user_id = ?`,
-        [products[i].quantity, products[i].product_id, userId]
+        DELETE FROM 
+            carts
+        WHERE 
+            user_id = ? AND 
+            product_id = ?`
+         ,
+        [userId, items[0].product_id]
         )    
     }
-
-    await dataSource.query(`
-        DELETE FROM
-            carts 
-        WHERE 
-            quantity = 0`
-    )
 
     return;
 
@@ -92,25 +106,41 @@ const deductPoint = async (userId, total) => {
 
 }
 
-const deleteProductStuck = async (products) => {    
-    for(let i=0; i<products.length; i++){
+const checkStock = async (productId) => {    
+
+    const result = await dataSource.query(`
+        SELECT stock, name
+        FROM products p 
+        WHERE id in ?`,
+    [productId]
+    )
+
+    return result;
+
+}
+
+
+const deleteProductStock = async (items) => {    
+    for(let i=0; i<items.length; i++){
         await dataSource.query(`
             UPDATE products 
             SET stock = stock - ? 
             WHERE id = ?`,
-        [products[i].quantity, products[i].product_id]
+        [items[i].quantity, items[i].product_id]
         )
     }
     
-    
+    return;
 
 }
 
 module.exports = {
+    checkPoint,
     createOrder,
-    getCartTrue,
+    getCart,
     createOrderItems,
     deleteCart,
     deductPoint,
-    deleteProductStuck
+    checkStock,
+    deleteProductStock,
 }
