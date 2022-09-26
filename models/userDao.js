@@ -21,7 +21,7 @@ const checkUser = async (email) => {
 	SELECT EXISTS(
 		SELECT *
 		FROM users 
-		WHERE email = ?) AS boolean;`,
+		WHERE email = ?) AS boolean`,
       [email]
     )
 	console.log(result.boolean)
@@ -41,6 +41,21 @@ const checkUser = async (email) => {
 
 	return user
 }
+const deleteLike = async (userId, productId) => {
+
+	await dataSource.query(`
+	DELETE FROM 
+		likes
+	WHERE 
+		user_id= ? AND
+		product_id in (?)`, 
+		[userId, productId]
+	)
+
+	return;
+
+}
+
 
 const getLikeList = async (userId) => {
     
@@ -66,5 +81,6 @@ module.exports = {
 	createUser,
     checkUser,
     getUserByEmail,
+	deleteLike,
 	getLikeList
 }
