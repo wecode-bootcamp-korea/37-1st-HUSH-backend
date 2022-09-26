@@ -2,10 +2,11 @@ const { reviewsService } = require('../services')
 const { catchAsync }  = require('../utils/error')
 
 const postReviews = catchAsync(async (req, res) => {
-    const {product_id} = req.params; 
-    const reviews = await reviewsService.postReviews(product_id);
-
-    return res.status(200).json({ data : reviews });
+    // console.log(req.userId)
+    const { user_id, product_id, content } = req.body; 
+    await reviewsService.postReviews( user_id, product_id, content);
+    //await reviewsService.postReviews(user_id, product_id, content)
+    return res.status(200).json({ message });
 })
 
 module.exports = {
