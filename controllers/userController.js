@@ -34,7 +34,7 @@ const signUp = catchAsync(async (req, res) => {
 })
 
 const deleteLike = catchAsync(async (req, res) => {
-  const { productId } = req.query;
+  const productId  = req.query.productId;
   const userId = req.userId;
   await userService.deleteLike(userId, productId);
     

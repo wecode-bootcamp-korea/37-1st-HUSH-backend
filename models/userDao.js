@@ -43,18 +43,15 @@ const checkUser = async (email) => {
 }
 const deleteLike = async (userId, productId) => {
 
-	for(const el of productId ){
+	await dataSource.query(`
+	DELETE FROM 
+		likes
+	WHERE 
+		user_id= ? AND
+		product_id in (?)`, 
+		[userId, productId]
+	)
 
-		await dataSource.query(`
-		DELETE FROM 
-			likes
-		WHERE 
-			user_id= ? AND
-			product_id = ?`, 
-			[userId, el]
-		)
-	}
-	
 	return;
 
 }
