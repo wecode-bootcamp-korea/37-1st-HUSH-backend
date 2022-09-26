@@ -21,7 +21,7 @@ const checkUser = async (email) => {
 	SELECT EXISTS(
 		SELECT *
 		FROM users 
-		WHERE email = ?) AS boolean;`,
+		WHERE email = ?) AS boolean`,
       [email]
     )
 	console.log(result.boolean)
