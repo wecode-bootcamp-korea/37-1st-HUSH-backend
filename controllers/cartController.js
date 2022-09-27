@@ -11,6 +11,15 @@ const addCart = catchAsync(async (req, res) => {
 	res.status(201).json({ insertId })
 })
 
+const listUpCart = catchAsync(async (req, res) => {
+	const { userId } = req.body
+
+  const data = await cartService.listUpCart(userId)
+
+	res.status(200).json({ data })
+}) 
+
 module.exports = {
 	addCart,
+	listUpCart,
 }
