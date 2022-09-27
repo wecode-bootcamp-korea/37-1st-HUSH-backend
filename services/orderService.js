@@ -16,24 +16,21 @@ const createOrder = async (userId, productId, total, reqMessage, address) => {
             throw error;
         }
 
+
         await orderDao.deductPoint(userId, total);
-
-        const checkStock = await orderDao.checkStock(productId);
-        if(checkStock.length != 0 ){
-            const error = new Error(`${checkstock}_IS_LACK`);
-            error.statusCode = 400;
-            throw error;
-        }
-
-        await orderDao.deleteProductStock(productId);
 
         const items = await orderDao.getCart(userId, productId);
         const orderId = await orderDao.createOrder(userId, reqMessage, address);
+        await orderDao.createOrderItems(orderId, items);
+        const checkStock = await orderDao.checkStock(productId);
+        if(checkStock.length != 0 ){
+            const error = new Error(`${JSON.stringify(checkStock)}_IS_LACK`);
+            error.statusCode = 400;
+            throw error;
+        }
+        await orderDao.deleteProductStock(productId);
+        await orderDao.deleteCart(userId, productId);
         
-        //await orderDao.createOrderItems(orderId, items);
-        // await orderDao.deleteCart(userId, items);
-        
-
         await queryRunner.commitTransaction();
 
 

@@ -58,43 +58,38 @@ const getCart= async (userId, productId) => {
 
   }
 
+
 const createOrderItems = async (orderId, items) => {    
-    // for items => (orderId, item.productId, item.quan)
+
+    let tmp = "";
+    items.map(el => {
+        tmp += `(${orderId}, ${el.product_id}, ${el.quantity}),`
+    })
+    tmp = tmp.slice(0,-1);
+
     await dataSource.query(`
         INSERT INTO order_items (
             order_id,
             product_id,
             quantity
-            ) VALUES (?)`,
-
-    // INSERT INTO order_items (
-    //     order_id,
-    //     product_id,
-    //     quantity
-    // ) VALUES
-    //     (1, 1, 10),
-    //     (1, 2, 5),
-    //     (1, 3, 3)
-    [orderId, items]
+            ) VALUES ` + tmp
     )    
 
 
     return;
 }
 
-const deleteCart = async (userId, items) => {    
+const deleteCart = async (userId, productId) => {    
 
-    const {product_id} = items;
     await dataSource.query(`
-    DELETE FROM 
-        carts
-    WHERE 
-        user_id = ? AND 
-        product_id in (?)`
+        DELETE FROM 
+            carts
+        WHERE 
+            user_id = ? AND 
+            product_id in (?)`
         ,
-    [userId, product_id]
+    [userId, productId]
     )    
-
 
     return;
 
@@ -133,14 +128,19 @@ const checkStock = async (productId) => {
 
 const deleteProductStock = async (productId) => {    
 
-        await dataSource.query(`
-            UPDATE products 
-            SET stock = stock - ? 
-            WHERE id in (?)`,
-        [productId]
-        )
+    await dataSource.query(`
+        UPDATE 
+            products p
+        INNER JOIN 
+            carts c 
+        ON 
+            p.id = c.product_id 
+        SET 
+            p.stock = p.stock - c.quantity
+        WHERE p.id in (?)`,[productId]
+    )
 
-    
+
     return;
 
 }
