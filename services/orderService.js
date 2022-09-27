@@ -8,7 +8,7 @@ const createOrder = async (userId, productId, total, reqMessage, address) => {
     await queryRunner.startTransaction();
     
     try{
-        userPoint = await orderDao.checkPoint(userId, total);
+        userPoint = await orderDao.checkPoint(userId);
 
         if(userPoint < total){
             const error = new Error("LACK_OF_POINT")
@@ -17,11 +17,16 @@ const createOrder = async (userId, productId, total, reqMessage, address) => {
         }
         const orderId = await orderDao.createOrder(userId, reqMessage, address);
         const items = await orderDao.getCart(userId, productId);
-        await orderDao.createOrderItems(orderId, items);
+        //await orderDao.createOrderItems(orderId, items);
         await orderDao.deductPoint(userId, total);
-        await orderDao.checkStock(productId);
-        await orderDao.deleteProductStock(items);
-        await orderDao.deleteCart(userId, items);
+        const checkStock = await orderDao.checkStock(productId);
+        if(checkStock.length != 0 ){
+            const error = new Error(`${checkstock}_IS_LACK`);
+            error.statusCode = 400;
+            throw error;
+        }
+        await orderDao.deleteProductStock(productId);
+        // await orderDao.deleteCart(userId, items);
         
 
         await queryRunner.commitTransaction();

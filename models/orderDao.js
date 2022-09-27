@@ -1,7 +1,8 @@
-const { UsingJoinColumnOnlyOnOneSideAllowedError } = require('typeorm');
+const { UsingJoinColumnOnlyOnOneSideAllowedError, InsertValuesMissingError } = require('typeorm');
 const dataSource = require('./dataSource');
+const { createUser } = require('./userDao');
 
-const checkPoint = async (userId, total) => {    
+const checkPoint = async (userId) => {    
 
     const [result] = await dataSource.query(`
         SELECT 
@@ -60,36 +61,41 @@ const getCart= async (userId, productId) => {
 
 const createOrderItems = async (orderId, items) => {    
 
-    for(let i=0; i<items.length; i++){
-        await dataSource.query(`
+    await dataSource.query(`
         INSERT INTO order_items (
             order_id,
             product_id,
             quantity
-            ) VALUES (
-                    ?,
-                    ?,
-                    ?
-            )`,
-        [orderId, items[i].product_id, items[i].quantity]
-        )    
-    }
+            ) VALUES (?)`,
+
+    // INSERT INTO order_items (
+    //     order_id,
+    //     product_id,
+    //     quantity
+    // ) VALUES
+    //     (1, 1, 10),
+    //     (1, 2, 5),
+    //     (1, 3, 3)
+    [orderId, items]
+    )    
+
 
     return;
 }
 
 const deleteCart = async (userId, items) => {    
-    for(let i=0; i<items.length; i++){
-        await dataSource.query(`
-        DELETE FROM 
-            carts
-        WHERE 
-            user_id = ? AND 
-            product_id = ?`
-         ,
-        [userId, items[0].product_id]
-        )    
-    }
+
+    const {product_id} = items;
+    await dataSource.query(`
+    DELETE FROM 
+        carts
+    WHERE 
+        user_id = ? AND 
+        product_id in (?)`
+        ,
+    [userId, product_id]
+    )    
+
 
     return;
 
@@ -109,26 +115,32 @@ const deductPoint = async (userId, total) => {
 const checkStock = async (productId) => {    
 
     const result = await dataSource.query(`
-        SELECT stock, name
-        FROM products p 
-        WHERE id in ?`,
-    [productId]
+    SELECT (
+        CASE WHEN 
+            p.stock - c.quantity < 0 THEN p.id 
+        END) AS productId
+    FROM 
+        products p 
+    INNER JOIN 
+        carts c 
+        ON p.id = c.product_id 
+    WHERE p.id in (?) AND 
+        p.stock - c.quantity < 0`, [productId]
     )
-
     return result;
 
 }
 
 
-const deleteProductStock = async (items) => {    
-    for(let i=0; i<items.length; i++){
+const deleteProductStock = async (productId) => {    
+
         await dataSource.query(`
             UPDATE products 
             SET stock = stock - ? 
-            WHERE id = ?`,
-        [items[i].quantity, items[i].product_id]
+            WHERE id in (?)`,
+        [productId]
         )
-    }
+
     
     return;
 

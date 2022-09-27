@@ -6,8 +6,8 @@ const { catchAsync } = require('../utils/error.js')
 
 const createOrder = catchAsync(async (req, res) => {
   const userId = req.userId;
-  const { productId } = req.query;
-  const { total, reqMessage, address } = req.body;
+
+  const { total, reqMessage, address, productId} = req.body;
       
   await orderService.createOrder(userId, productId, total, reqMessage, address);
       
