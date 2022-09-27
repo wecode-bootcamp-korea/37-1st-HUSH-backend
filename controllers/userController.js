@@ -51,10 +51,19 @@ const getLikeList = catchAsync(async (req, res) => {
 
 })
 
+const getPoint = catchAsync(async (req, res) => {
+  const userId = req.userId;
+    
+    const point = await userService.getPoint(userId);
+    
+    res.status(200).json({ message : point });
+
+})
   module.exports = {
 	  signUp,
     checkUser,
     signIn,
     deleteLike,
-    getLikeList
+    getLikeList,
+    getPoint
 }
