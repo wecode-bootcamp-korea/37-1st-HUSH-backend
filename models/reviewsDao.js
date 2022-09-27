@@ -8,10 +8,10 @@ const getReviewExists = async ( user_id, product_id ) => {
                     *
                 FROM reviews
                 WHERE user_id = ? AND product_id = ?
-            ) AS review`,
+            ) AS boolean`,
             [ user_id, product_id ]
         )
-        return review
+        return review.boolean
     } catch (err) {
         const error = new Error(`INVALID_DATA_INPUT`);
         error.statusCode = 500;
@@ -20,6 +20,7 @@ const getReviewExists = async ( user_id, product_id ) => {
 }
 
 const postReviews = async ( user_id, product_id, content) => {
+	console.log(content)
 	return await appDataSource.query(`
 		INSERT INTO reviews(
 			user_id,

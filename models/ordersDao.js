@@ -19,7 +19,6 @@ const getOrders = async ( user_id, product_id ) => {
        ) as product_id`,
     [user_id, product_id]
  )
- console.log( orders )
    return orders;   
 }
 
