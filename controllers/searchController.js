@@ -3,7 +3,7 @@ const { catchAsync }  = require('../utils/error')
 
 const getItems = catchAsync(async (req, res) => {
     
-    const keyWord = req.params.keyword;
+    const keyWord = req.query.keyword;
     
     const items = await searchService.getItems(keyWord)
 
