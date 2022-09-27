@@ -8,9 +8,13 @@ const quantControl = catchAsync(async (req, res) => {
 	const quantity = req.query.quantity
 	const userId = req.userId
 
+	console.log(productId)
+	console.log(quantity)
+	console.log(userId)
+
 	const result = await cartService.quantControl(productId, quantity, userId)
 
-	res.status(201).json ({ result })
+	res.status(201).json ({ message : "UPDATECART_SUCCESS" })
 })
 
 module.exports = {
