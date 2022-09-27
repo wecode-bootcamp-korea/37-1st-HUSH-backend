@@ -70,6 +70,12 @@ const getLikeList = async (userId) => {
     
 }
 
+const getPoint = async (userId) => {
+
+	return await userDao.getPoint(userId);
+    
+}
+
 
 
 module.exports = { 
@@ -77,5 +83,6 @@ module.exports = {
     checkUser,
     signIn,
 	deleteLike,
-	getLikeList
+	getLikeList,
+	getPoint
 }
