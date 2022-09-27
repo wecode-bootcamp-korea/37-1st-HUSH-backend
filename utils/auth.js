@@ -8,7 +8,7 @@ const validToken = async(req, res, next) =>{
     if( !userToken ) return res.status(400).json({message : "KEY_ERROR" });
 
     const decoded = jwt.verify(userToken, key);
-    console.log(decoded)
+
     const { id } = decoded;
     req.userId = id;
 
