@@ -13,6 +13,6 @@ const getOrders = async ( user_id, product_id ) => {
 }
 
 module.exports = {
-   
+    getOrders
 }
 
