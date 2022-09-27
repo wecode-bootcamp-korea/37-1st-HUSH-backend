@@ -1,6 +1,5 @@
-const { UsingJoinColumnOnlyOnOneSideAllowedError, InsertValuesMissingError } = require('typeorm');
 const dataSource = require('./dataSource');
-const { createUser } = require('./userDao');
+
 
 const checkPoint = async (userId) => {    
 
@@ -60,7 +59,7 @@ const getCart= async (userId, productId) => {
   }
 
 const createOrderItems = async (orderId, items) => {    
-
+    // for items => (orderId, item.productId, item.quan)
     await dataSource.query(`
         INSERT INTO order_items (
             order_id,

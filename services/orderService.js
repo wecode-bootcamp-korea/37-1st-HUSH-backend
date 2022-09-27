@@ -1,5 +1,5 @@
 const datasource = require('../models/dataSource');
-const orderDao = require('../models/orderDao.js');
+const orderDao = require('../models/orderDao');
 const queryRunner = datasource.createQueryRunner();
 
 const createOrder = async (userId, productId, total, reqMessage, address) => {
@@ -15,17 +15,22 @@ const createOrder = async (userId, productId, total, reqMessage, address) => {
             error.statusCode = 400;
             throw error;
         }
-        const orderId = await orderDao.createOrder(userId, reqMessage, address);
-        const items = await orderDao.getCart(userId, productId);
-        //await orderDao.createOrderItems(orderId, items);
+
         await orderDao.deductPoint(userId, total);
+
         const checkStock = await orderDao.checkStock(productId);
         if(checkStock.length != 0 ){
             const error = new Error(`${checkstock}_IS_LACK`);
             error.statusCode = 400;
             throw error;
         }
+
         await orderDao.deleteProductStock(productId);
+
+        const items = await orderDao.getCart(userId, productId);
+        const orderId = await orderDao.createOrder(userId, reqMessage, address);
+        
+        //await orderDao.createOrderItems(orderId, items);
         // await orderDao.deleteCart(userId, items);
         
 
