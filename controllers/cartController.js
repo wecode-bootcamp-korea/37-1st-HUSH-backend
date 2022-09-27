@@ -20,9 +20,8 @@ const listUpCart = catchAsync(async (req, res) => {
 }) 
 
 const listDelete = catchAsync(async (req, res) => {
-	const { productId } = req.body
+	const productId = req.query.productId
 	const userId = req.userId
-	console.log(userId)		//userId - undefine 해결하면 끝
 	const result = await cartService.listDelete(productId, userId)
 	
 	res.status(201).json ({ result })

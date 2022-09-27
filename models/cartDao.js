@@ -38,8 +38,8 @@ const listDelete = async (productId, userId) => {
 	const result = await appDataSource.query(`
 	DELETE FROM carts
 	WHERE
-	product_id=? AND user_id=?;`,
-	[quantity, userId]
+	user_id=? AND product_id IN (?);`,
+	[userId, productId]
 	)
 	return result
 }
