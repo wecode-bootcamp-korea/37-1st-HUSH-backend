@@ -6,7 +6,6 @@ const orderList = (userId,productId) => {
   
 }
 
-
 const addCart = async (productId, quantity, userId) => {
 
 	return await cartDao.addCart(productId, quantity, userId)
