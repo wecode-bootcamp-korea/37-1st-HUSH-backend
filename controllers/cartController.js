@@ -12,7 +12,7 @@ const addCart = catchAsync(async (req, res) => {
 })
 
 const listUpCart = catchAsync(async (req, res) => {
-	const { userId } = req.body
+	const userId = req.userId;
 
   const data = await cartService.listUpCart(userId)
 
