@@ -28,7 +28,7 @@ const quantControl = catchAsync(async (req, res) => {
 
 	const result = await cartService.quantControl(productId, quantity, userId)
 
-	res.status(201).json ({ message : "UPDATECART_SUCCESS" })
+	res.status(201).json ({ data })
 })
 
 	module.exports = {
