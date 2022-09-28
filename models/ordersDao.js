@@ -2,11 +2,7 @@ const appDataSource = require('./dataSource')
 
 const getOrders = async ( user_id, product_id ) => {
 
-    const [ orders ] = await appDataSource.query(
-      // `SELECT
-      //    *
-      //  FROM orders
-      //  WHERE user_id = ? AND product_id = ?`, 
+    const [ orders ] = await appDataSource.query( 
       `select exists(
       select
        i.product_id  
