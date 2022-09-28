@@ -35,12 +35,13 @@ const listUpCart = (userId) => {
 
 const quantControl = async (productId, quantity, userId) => {
 	
-	return appDataSource.query(`
+	appDataSource.query(`
 	UPDATE carts
 	SET quantity=?
 	WHERE product_id=? AND user_id=?`,
 	[quantity, productId, userId]
 	)
+	return listUpCart(userId)
 }
 
 module.exports = {
