@@ -7,5 +7,5 @@ module.exports = {
   userService,
   productsService,
   cartService,
-	reviewsService,
-};
+  reviewsService,
+}
