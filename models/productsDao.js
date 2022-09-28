@@ -13,7 +13,7 @@ const getAllProducts = async () => {
           p.created_at
            FROM products p
           join categories c
-          on p.category_id = c.id 
+          on p.category_id = c.id
         `)
   };
 
