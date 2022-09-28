@@ -9,7 +9,7 @@ const getAllProducts = async () => {
           p.stock,
           p.thumbnail_image_url,
           p.updated_at,
-          c.id,
+          c.name AS category_id,
           p.created_at
            FROM products p
           join categories c
