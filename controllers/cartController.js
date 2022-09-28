@@ -35,7 +35,6 @@ const quantControl = catchAsync(async (req, res) => {
 		const userId = req.userId
 		
 		const result = await cartService.quantControl(productId, quantity, userId)
-		console.log(result)
 		res.status(201).json ({ result })
 	})
 	
