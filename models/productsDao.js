@@ -3,15 +3,17 @@ const appDataSource = require('./dataSource')
 const getAllProducts = async () => {
     return await appDataSource.query(`
       SELECT
-          products.id,
-          products.name,
-          products.price,
-          products.stock,
-          products.thumbnail_image_url,
-          products.updated_at,
-          products.category_id,
-          products.created_at
-           FROM products
+          p.id,
+          p.name,
+          p.price,
+          p.stock,
+          p.thumbnail_image_url,
+          p.updated_at,
+          c.id,
+          p.created_at
+           FROM products p
+          join categories c
+          on p.category_id = c.id 
         `)
   };
 
