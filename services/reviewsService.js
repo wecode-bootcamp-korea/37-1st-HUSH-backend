@@ -19,8 +19,6 @@ const postReviews = async (user_id, product_id, content) => {
     return;
 }
 
-const reviewsDao = require('../models/reviewsDao')
-
 const modifyReview = async (userId, productId, content) => {
 
     const checkUser = await reviewsDao.checkUser(userId, productId);

@@ -83,7 +83,8 @@ const getreviews = async (product_id) => {
 
   module.exports = {
     checkUser,
-    modifyReview,
+    postReviews,
+	modifyReview,
     getreviews,
 	getReviewExists
  }
