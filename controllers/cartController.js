@@ -13,26 +13,36 @@ const addCart = catchAsync(async (req, res) => {
 })
 
 const listUpCart = catchAsync(async (req, res) => {
+
 	const userId = req.userId;
 
-  const data = await cartService.listUpCart(userId)
-
+  	const data = await cartService.listUpCart(userId)
+	
 	res.status(200).json({ data })
+	d
 }) 
 
-const quantControl = catchAsync(async (req, res) => {
-
+const listDelete = catchAsync(async (req, res) => {
 	const productId = req.query.productId
-	const quantity = req.query.quantity
 	const userId = req.userId
+	const result = await cartService.listDelete(productId, userId)
 
-	const result = await cartService.quantControl(productId, quantity, userId)
-	console.log(result)
 	res.status(201).json ({ result })
 })
 
+const quantControl = catchAsync(async (req, res) => {
+		
+		const productId = req.query.productId
+		const quantity = req.query.quantity
+		const userId = req.userId
+		
+		const result = await cartService.quantControl(productId, quantity, userId)
+		res.status(201).json ({ result })
+	})
+	
 	module.exports = {
 		addCart,
 		listUpCart,
+		listDelete,
 		quantControl,
 }
