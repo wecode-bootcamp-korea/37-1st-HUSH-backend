@@ -85,6 +85,19 @@ const getPoint = async (userId) => {
 			[userId]
 	)
 }
+
+const getUserInfo = async (userId) => {
+
+	return await dataSource.query(`
+		SELECT 
+			point
+		FROM 
+			users
+		WHERE users.id = ?`,
+			[userId]
+	)
+}
+  
   
 
 module.exports = { 
@@ -93,5 +106,6 @@ module.exports = {
     getUserByEmail,
 	deleteLike,
 	getLikeList,
-	getPoint
+	getPoint,
+	getUserInfo
 }
