@@ -1,8 +1,8 @@
-const appDataSource = require('./dataSource')
+const dataSource = require('./dataSource')
 
 const getReviewExists = async ( user_id, product_id ) => {
     try {
-        const [ review ] = await appDataSource.query(
+        const [ review ] = await dataSource.query(
             `SELECT EXISTS(
                 SELECT
                     *
@@ -21,7 +21,7 @@ const getReviewExists = async ( user_id, product_id ) => {
 
 const postReviews = async ( user_id, product_id, content) => {
 	console.log(content)
-	return await appDataSource.query(`
+	return await dataSource.query(`
 		INSERT INTO reviews(
 			user_id,
 			product_id,
@@ -34,7 +34,7 @@ const postReviews = async ( user_id, product_id, content) => {
 
 const checkUser = async (userId, productId) => {
  
-    const [doesExist] = await appDataSource.query(`
+    const [doesExist] = await dataSource.query(`
     SELECT EXISTS(
         SELECT 
             id
@@ -52,7 +52,7 @@ const checkUser = async (userId, productId) => {
 
 const modifyReview = async (userId, productId, content) => {
 
-    await appDataSource.query(`
+    await dataSource.query(`
         UPDATE
             reviews
         SET
@@ -69,7 +69,7 @@ const modifyReview = async (userId, productId, content) => {
 };
 
 const getreviews = async (product_id) => {
-    return await appDataSource.query(`
+    return await dataSource.query(`
 	select u.name as userName, p.name as productName, r.content, r.created_at as createdAt
 	from reviews r
 	join users u

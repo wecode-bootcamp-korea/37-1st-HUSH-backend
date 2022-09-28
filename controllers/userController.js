@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const  userService  = require('../services/userService');
+const  { userService }  = require('../services');
 const { catchAsync } = require('../utils/error');
 
 const signUp = catchAsync(async (req, res) => {
@@ -33,24 +33,7 @@ const signUp = catchAsync(async (req, res) => {
 
 })
 
-const deleteLike = catchAsync(async (req, res) => {
-  const productId  = req.query.productId;
-  const userId = req.userId;
 
-  await userService.deleteLike(userId, productId);
-    
-  res.status(200).json({ message : "DELETELIKE_SUCCESS"});
-
-})
-
-const getLikeList = catchAsync(async (req, res) => {
-  const { userId } = req;
-    
-    const likes = await userService.getLikeList(userId);
-    
-    res.status(200).json({ likes });
-
-})
 
 const getPoint = catchAsync(async (req, res) => {
   const userId = req.userId;
@@ -74,8 +57,6 @@ const getUserInfo = catchAsync(async (req, res) => {
 	  signUp,
     checkUser,
     signIn,
-    deleteLike,
-    getLikeList,
     getPoint,
     getUserInfo
 }

@@ -1,10 +1,10 @@
-const appDataSource = require('./dataSource')
+const dataSource = require('./dataSource')
 
 const getItems = async (keyWord) => {
 
     keyWord = keyWord + '%'
     
-    const result = await appDataSource.query(`
+    const result = await dataSource.query(`
       SELECT
           id,
           name

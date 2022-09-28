@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const userDao = require('../models/userDao.js');
+const { userDao } = require('../models');
 
 const validatePassword = (password) => {
 	const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
@@ -59,17 +59,6 @@ const signIn = async (email, password) => {
 
 }
 
-const deleteLike = async (userId, productId) => {
-
-	return await userDao.deleteLike(userId, productId);
-}
-
-const getLikeList = async (userId) => {
-
-	return await userDao.getLikeList(userId);
-    
-}
-
 const getPoint = async (userId) => {
 
 	return await userDao.getPoint(userId);
@@ -83,14 +72,10 @@ const getUserInfo = async (userId) => {
 }
 
 
-
-
 module.exports = { 
     signUp,
     checkUser,
     signIn,
-	deleteLike,
-	getLikeList,
 	getPoint,
 	getUserInfo
 }

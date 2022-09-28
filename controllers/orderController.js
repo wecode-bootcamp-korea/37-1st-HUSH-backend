@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const  orderService  = require('../services/orderService.js');
+const { orderService }  = require('../services');
 const { catchAsync } = require('../utils/error.js')
 
 const getCartInfo = catchAsync(async (req, res) => {
@@ -15,9 +15,21 @@ const getCartInfo = catchAsync(async (req, res) => {
       
   res.status(201).json({ message : cartInfo});
   
+})
+
+const createOrder = catchAsync(async (req, res) => {
+  const userId = req.userId;
+
+  const { total, reqMessage, address, productId} = req.body;
+
+  await orderService.createOrder(userId, productId, total, reqMessage, address);
+
+  res.status(201).json({ message : "ORDER_SUCCESS"});
+
   })
 
   module.exports = {
-    getCartInfo
+    getCartInfo,
+    createOrder
 }
   

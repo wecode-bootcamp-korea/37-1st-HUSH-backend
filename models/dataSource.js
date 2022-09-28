@@ -1,6 +1,6 @@
 const { DataSource } = require('typeorm')
 
-const appDataSource = new DataSource({
+const dataSource = new DataSource({
     type: process.env.TYPEORM_CONNECTION,
     host: process.env.TYPEORM_HOST,
     port: process.env.TYPEORM_PORT,
@@ -9,9 +9,9 @@ const appDataSource = new DataSource({
     database: process.env.TYPEORM_DATABASE
 })
 
-appDataSource.initialize()
+dataSource.initialize()
     .then(() => {
         console.log("Data Source has been initialized!")
     })
 
- module.exports = appDataSource;
+ module.exports = dataSource;

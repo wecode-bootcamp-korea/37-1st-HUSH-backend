@@ -1,4 +1,3 @@
-const { query } = require('express')
 const { cartService } = require('../services')
 const { catchAsync }  = require('../utils/error')
 

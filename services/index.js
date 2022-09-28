@@ -1,11 +1,15 @@
-const productsService = require('./productsService')
+const productService = require('./productService')
 const userService = require('./userService')
 const cartService = require('./cartService')
-const reviewsService = require('./reviewsService')
+const reviewService = require('./reviewService')
+const orderService = require('./orderService')
+const searchService = require('./searchService')
 
 module.exports = {
-  productsService,
+  productService,
   userService,
   cartService,
-  reviewsService
+  reviewService,
+  orderService,
+  searchService
 }

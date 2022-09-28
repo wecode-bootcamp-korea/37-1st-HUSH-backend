@@ -1,4 +1,4 @@
-const searchService = require('../services/searchService')
+const { searchService } = require('../services')
 const { catchAsync }  = require('../utils/error')
 
 const getItems = catchAsync(async (req, res) => {

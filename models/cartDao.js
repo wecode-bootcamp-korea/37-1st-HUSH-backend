@@ -1,4 +1,4 @@
-const appDataSource = require('./dataSource')
+const dataSource = require('./dataSource')
 
 	const addCart = async (product_id, quantity, userId) => {
 		const result = await dataSource.query(`
@@ -17,7 +17,7 @@ const appDataSource = require('./dataSource')
 }
 
 const listUpCart = (userId) => {
-	return appDataSource.query(`
+	return dataSource.query(`
 	SELECT
 	p.thumbnail_image_url as url,
 	p.name as pName,
@@ -35,7 +35,7 @@ const listUpCart = (userId) => {
 
 const listDelete = async (productId, userId) => {
 	
-	await appDataSource.query(`
+	await dataSource.query(`
 	DELETE FROM carts
 	WHERE
 	user_id=? AND product_id IN (?);`,
@@ -46,7 +46,7 @@ const listDelete = async (productId, userId) => {
 
 const quantControl = async (productId, quantity, userId) => {
 	
-	appDataSource.query(`
+	dataSource.query(`
 	UPDATE carts
 	SET quantity=?
 	WHERE product_id=? AND user_id=?`,

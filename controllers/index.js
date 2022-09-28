@@ -1,11 +1,17 @@
 const userController = require('./userController')
-const productsController = require('./productsController')
-const reviewsController = require ('./reviewsController')
+const productController = require('./productController')
+const reviewController = require ('./reviewController')
 const cartController = require('./cartController')
+const searchController = require('./searchController')
+const orderController = require('./orderController')
+const likeController = require('./likeController')
 
 module.exports = { 
 	userController,
-	productsController,
+	productController,
 	cartController,
-	reviewsController
+	reviewController,
+	searchController,
+	orderController,
+	likeController
 }

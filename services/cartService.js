@@ -26,5 +26,5 @@ module.exports = {
   addCart,
   listUpCart,
   listDelete,
-  quantControl,
+  quantControl
 }

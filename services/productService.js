@@ -1,4 +1,4 @@
-const productDao = require('../models/productDao');
+const { productDao } = require('../models');
 
 const inputLike = async (userId, productId) => {
     
@@ -13,7 +13,17 @@ const inputLike = async (userId, productId) => {
 
 }
 
+const getAllProducts = async () => {
+	return await productDao.getAllProducts()
+}
+
+const getProduct = async (productId) => {
+    return await productDao.getProduct(productId)
+}
+
+
 module.exports = { 
     inputLike,
-
+    getAllProducts,
+    getProduct
 }
