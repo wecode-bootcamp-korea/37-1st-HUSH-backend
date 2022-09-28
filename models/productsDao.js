@@ -1,23 +1,26 @@
 const appDataSource = require('./dataSource')
 
-const getAllProducts = async () => {
-    return await appDataSource.query(`
+  const getcategoryProducts = async (categoryId) => {
+    const result = await appDataSource.query(`
       SELECT
           p.id,
           p.name,
           p.price,
           p.stock,
-          p.thumbnail_image_url,
-          p.updated_at,
           c.name AS category_id,
-          p.created_at
-           FROM products p
-          join categories c
-          on p.category_id = c.id
-        `)
+          p.thumbnail_image_url,
+          p.created_at,
+          p.updated_at
+        FROM products p
+        join categories c
+        on p.category_id = c.id
+        WHERE category_id = ?`, [categoryId]
+    )
+
+    return result
   };
 
-const getProduct = async (productId) => {
+  const getAllProducts = async (productId) => {
     const [result] = await appDataSource.query(`
       SELECT
         p.id,
@@ -42,12 +45,34 @@ const getProduct = async (productId) => {
     WHERE 
       p.id = ?`, [productId]
     )
-    
+
     return result
   };
 
+  const getProduct = async (productId) => {
+    const result = await appDataSource.query(`
+      SELECT
+          p.id,
+          p.name,
+          p.price,
+          p.stock,
+          c.name AS category_Name,
+          p.thumbnail_image_url,
+          p.created_at,
+          p.updated_at,
+          pi.image_url
+        FROM products p 
+        join categories c
+        on p.category_id = c.id
+        join product_images pi
+        on p.id = pi.product_id 
+        WHERE p.id = ?`, [productId]
+    )
+    return result [0]
+  }
+
 module.exports = {
+   getcategoryProducts,
    getAllProducts,
    getProduct
 }
-
