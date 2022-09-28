@@ -1,18 +1,18 @@
 const appDataSource = require('./dataSource')
 
-const addCart = async (product_id, quantity, userId) => {
-	const result = await dataSource.query(`
+	const addCart = async (product_id, quantity, userId) => {
+		const result = await dataSource.query(`
 		INSERT INTO carts (
 			user_id,
 			product_id,
 			quantity
-		) VALUES (
-			?,
-			?,
-			?
-		)`, [userId, product_id, quantity]
+			) VALUES (
+				?,
+				?,
+				?
+				)`, [userId, product_id, quantity]
 	)
-
+	
 	return result.insertId
 }
 
@@ -33,6 +33,7 @@ const listUpCart = (userId) => {
   
 }
 
+<<<<<<< HEAD
 const listDelete = async (productId, userId) => {
 	
 	await appDataSource.query(`
@@ -40,6 +41,15 @@ const listDelete = async (productId, userId) => {
 	WHERE
 	user_id=? AND product_id IN (?);`,
 	[userId, productId]
+=======
+const quantControl = async (productId, quantity, userId) => {
+	
+	appDataSource.query(`
+	UPDATE carts
+	SET quantity=?
+	WHERE product_id=? AND user_id=?`,
+	[quantity, productId, userId]
+>>>>>>> main
 	)
 	return listUpCart(userId)
 }
@@ -47,5 +57,9 @@ const listDelete = async (productId, userId) => {
 module.exports = {
 	addCart,
   listUpCart,
+<<<<<<< HEAD
 	listDelete,
+=======
+	quantControl,
+>>>>>>> main
 }

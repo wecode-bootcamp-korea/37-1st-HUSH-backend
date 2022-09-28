@@ -1,3 +1,4 @@
+const { query } = require('express')
 const { cartService } = require('../services')
 const { catchAsync }  = require('../utils/error')
 
@@ -27,8 +28,20 @@ const listDelete = catchAsync(async (req, res) => {
 	res.status(201).json ({ result })
 })
 
-module.exports = {
-	addCart,
-	listUpCart,
-	listDelete,
+const quantControl = catchAsync(async (req, res) => {
+		
+		const productId = req.query.productId
+		const quantity = req.query.quantity
+		const userId = req.userId
+		
+		const result = await cartService.quantControl(productId, quantity, userId)
+		console.log(result)
+		res.status(201).json ({ result })
+	})
+	
+	module.exports = {
+		addCart,
+		listUpCart,
+		listDelete,
+		quantControl,
 }

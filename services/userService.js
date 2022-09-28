@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const userDao = require('../models/userDao');
+const userDao = require('../models/userDao.js');
 
 const validatePassword = (password) => {
 	const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
@@ -53,7 +53,11 @@ const signIn = async (email, password) => {
 		throw error
 	}
 
+<<<<<<< HEAD
 	const accessToken = jwt.sign({ user_id : user.id }, process.env.KEY)
+=======
+	const accessToken = jwt.sign({ user_id: user.id }, process.env.KEY)
+>>>>>>> main
 
 	return accessToken
 

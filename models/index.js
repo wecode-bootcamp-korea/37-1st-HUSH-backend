@@ -5,8 +5,16 @@ const cartDao = require('./cartDao');
 
 
 module.exports = {
+<<<<<<< HEAD
     appDataSource,
     userDao,
     productsDao,
     cartDao
 }
+=======
+	appDataSource,
+	userDao,
+	productsDao,
+	cartDao,
+}
+>>>>>>> main
