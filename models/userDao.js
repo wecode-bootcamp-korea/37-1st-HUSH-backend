@@ -27,7 +27,7 @@ const checkUser = async (email) => {
 	console.log(result.boolean)
 	return result;
   }
-
+  
   const getUserByEmail = async (email) => {
 	const [user] = await dataSource.query(`
 		SELECT 
@@ -38,8 +38,6 @@ const checkUser = async (email) => {
 		FROM users
 		WHERE email=?`, [email]
 	)
-
-	return user
 }
 const deleteLike = async (userId, productId) => {
 
