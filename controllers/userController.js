@@ -63,9 +63,9 @@ const getPoint = catchAsync(async (req, res) => {
 const getUserInfo = catchAsync(async (req, res) => {
   const userId = req.userId;
     
-    const point = await userService.getUserInfo(userId);
+  const getUserInfo = await userService.getUserInfo(userId);
     
-    res.status(200).json({ message : getUserInfo });
+  res.status(200).json({ message : getUserInfo });
 
 })
 

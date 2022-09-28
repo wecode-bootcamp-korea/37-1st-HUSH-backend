@@ -88,14 +88,22 @@ const getPoint = async (userId) => {
 
 const getUserInfo = async (userId) => {
 
-	return await dataSource.query(`
+	const [result] = await dataSource.query(`
 		SELECT 
-			point
+			id, 
+			email, 
+			name, 
+			address, 
+			point 
 		FROM 
-			users
-		WHERE users.id = ?`,
-			[userId]
+			users 
+		WHERE 
+			id = ?;`
+		,[userId]
 	)
+
+	return result;
+	
 }
   
   
