@@ -21,13 +21,13 @@ const checkUser = async (email) => {
 	SELECT EXISTS(
 		SELECT *
 		FROM users 
-		WHERE email = ?) AS boolean;`,
+		WHERE email = ?) AS boolean`,
       [email]
     )
 	console.log(result.boolean)
 	return result;
   }
-
+  
   const getUserByEmail = async (email) => {
 	const [user] = await dataSource.query(`
 		SELECT 
@@ -38,9 +38,22 @@ const checkUser = async (email) => {
 		FROM users
 		WHERE email=?`, [email]
 	)
-
-	return user
 }
+const deleteLike = async (userId, productId) => {
+
+	await dataSource.query(`
+	DELETE FROM 
+		likes
+	WHERE 
+		user_id= ? AND
+		product_id in (?)`, 
+		[userId, productId]
+	)
+
+	return;
+
+}
+
 
 const getLikeList = async (userId) => {
     
@@ -48,7 +61,8 @@ const getLikeList = async (userId) => {
 	  SELECT 
 		  products.id as productId, 
 		  products.name as productName, 
-		  products.price, 
+		  products.price,
+		  products.thumbnail_image_url,
 		  categories.name as categoryName 
 	  FROM 
 		  products 
@@ -60,11 +74,47 @@ const getLikeList = async (userId) => {
 		  [userId]
 	)
   }
+
+const getPoint = async (userId) => {
+
+	return await dataSource.query(`
+		SELECT 
+			point
+		FROM 
+			users
+		WHERE users.id = ?`,
+			[userId]
+	)
+}
+
+const getUserInfo = async (userId) => {
+
+	const [result] = await dataSource.query(`
+		SELECT 
+			id, 
+			email, 
+			name, 
+			address, 
+			point 
+		FROM 
+			users 
+		WHERE 
+			id = ?;`
+		,[userId]
+	)
+
+	return result;
+	
+}
+  
   
 
 module.exports = { 
 	createUser,
     checkUser,
     getUserByEmail,
-	getLikeList
+	deleteLike,
+	getLikeList,
+	getPoint,
+	getUserInfo
 }
