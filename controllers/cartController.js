@@ -23,7 +23,7 @@ const listDelete = catchAsync(async (req, res) => {
 	const productId = req.query.productId
 	const userId = req.userId
 	const result = await cartService.listDelete(productId, userId)
-	
+
 	res.status(201).json ({ result })
 })
 

@@ -35,13 +35,13 @@ const listUpCart = (userId) => {
 
 const listDelete = async (productId, userId) => {
 	
-	const result = await appDataSource.query(`
+	await appDataSource.query(`
 	DELETE FROM carts
 	WHERE
 	user_id=? AND product_id IN (?);`,
 	[userId, productId]
 	)
-	return result
+	return listUpCart(userId)
 }
 
 module.exports = {
