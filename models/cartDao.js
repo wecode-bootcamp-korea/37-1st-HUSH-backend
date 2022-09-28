@@ -33,7 +33,6 @@ const listUpCart = (userId) => {
   
 }
 
-<<<<<<< HEAD
 const listDelete = async (productId, userId) => {
 	
 	await appDataSource.query(`
@@ -41,7 +40,10 @@ const listDelete = async (productId, userId) => {
 	WHERE
 	user_id=? AND product_id IN (?);`,
 	[userId, productId]
-=======
+	)
+	return listUpCart(userId)
+}
+
 const quantControl = async (productId, quantity, userId) => {
 	
 	appDataSource.query(`
@@ -49,7 +51,6 @@ const quantControl = async (productId, quantity, userId) => {
 	SET quantity=?
 	WHERE product_id=? AND user_id=?`,
 	[quantity, productId, userId]
->>>>>>> main
 	)
 	return listUpCart(userId)
 }
@@ -57,9 +58,6 @@ const quantControl = async (productId, quantity, userId) => {
 module.exports = {
 	addCart,
   listUpCart,
-<<<<<<< HEAD
 	listDelete,
-=======
 	quantControl,
->>>>>>> main
 }

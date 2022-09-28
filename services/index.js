@@ -1,17 +1,11 @@
 const userService = require('./userService')
 const productsService = require('./productsService')
 const cartService = require('./cartService')
+const reviewsService = require('./reviewsService')
 
-<<<<<<< HEAD
 module.exports = {
   userService,
   productsService,
-  cartService
+  cartService,
+	reviewsService,
 };
-=======
-module.exports = { 
-	userService,
-	productsService,
-	cartService,
-}
->>>>>>> main
