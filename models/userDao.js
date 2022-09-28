@@ -63,7 +63,8 @@ const getLikeList = async (userId) => {
 	  SELECT 
 		  products.id as productId, 
 		  products.name as productName, 
-		  products.price, 
+		  products.price,
+		  products.thumbnail_image_url,
 		  categories.name as categoryName 
 	  FROM 
 		  products 

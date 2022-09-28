@@ -1,8 +1,9 @@
+const { CustomRepositoryCannotInheritRepositoryError } = require('typeorm');
 const appDataSource = require('./dataSource')
 
 const checkUser = async (userId, productId) => {
  
-    const [doesExist] = await dataSource.query(`
+    const [doesExist] = await appDataSource.query(`
     SELECT EXISTS(
         SELECT 
             id
@@ -18,21 +19,23 @@ const checkUser = async (userId, productId) => {
     
   };
 
-const modifyReview = async (userId, productId) => {
-    
-    const result = await appDataSource.query(`
-      SELECT
-          id,
-          name
-    FROM products
-        WHERE name like ? `,[keyWord]
+const modifyReview = async (userId, productId, content) => {
+    console.log(content);
+    await appDataSource.query(`
+        UPDATE
+            reviews
+        SET
+            content = ?
+        WHERE 
+            user_id = ? AND
+            product_id = ?
+        `,[ content, userId, productId ]
     )
-    console.log(result)
-    return result;
     
+    return;
+
     
-    
-  };
+};
 
 module.exports = {
     checkUser, modifyReview

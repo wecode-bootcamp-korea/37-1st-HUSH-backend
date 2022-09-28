@@ -6,8 +6,10 @@ const modifyReview = catchAsync(async (req, res) => {
     const userId = req.userId;
     
     const productId = req.params.productId;
+
+    const content = req.body.content;
     
-    const items = await reviewsService.getItems(userId, productId)
+    await reviewsService.modifyReview(userId, productId, content)
 
     res.status(200).json({ message : 'MODIFYREVIEW_SUCCESS' })
 })
