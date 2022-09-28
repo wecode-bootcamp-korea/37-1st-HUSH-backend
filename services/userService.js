@@ -59,9 +59,20 @@ const signIn = async (email, password) => {
 
 }
 
+const deleteLike = async (userId, productId) => {
+
+	return await userDao.deleteLike(userId, productId);
+}
+
 const getLikeList = async (userId) => {
 
 	return await userDao.getLikeList(userId);
+    
+}
+
+const getPoint = async (userId) => {
+
+	return await userDao.getPoint(userId);
     
 }
 
@@ -71,5 +82,7 @@ module.exports = {
     signUp,
     checkUser,
     signIn,
-	getLikeList
+	deleteLike,
+	getLikeList,
+	getPoint
 }
