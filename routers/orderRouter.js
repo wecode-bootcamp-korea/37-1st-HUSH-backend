@@ -4,7 +4,7 @@ const  { validToken } = require('../utils/auth.js');
 
 const router = express.Router();
 
-router.post('/', validToken, orderController.createOrder);
+router.get('/getCartInfo', validToken, orderController.getCartInfo);
 
 
 module.exports = router;
