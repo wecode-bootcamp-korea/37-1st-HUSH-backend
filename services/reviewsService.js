@@ -9,9 +9,17 @@ const modifyReview = async (userId, productId, content) => {
         throw error;
     }
 
-    await reviewsDao.modifyReview(userId, productId, content)
+    return await reviewsDao.modifyReview(userId, productId, content);
+}
+
+
+
+const getreviews = async (product_id) => {
+	return await reviewsDao.getreviews(product_id)
 }
 
 module.exports = {
-    modifyReview
+    modifyReview,
+    getreviews
+
 }
