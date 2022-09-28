@@ -4,7 +4,6 @@ const productsDao = require('./productsDao')
 const cartDao = require('./cartDao')
 
 module.exports = {
-<<<<<<< HEAD
 	appDataSource,
 	userDao,
 	productsDao,
