@@ -1,7 +1,7 @@
-const dataSource = require('./dataSource')
+const dataSource = require('./dataSource');
 
 const getAllProducts = async () => {
-  return await dataSource.query(`
+  const sql = `
     SELECT
         p.id,
         p.name,
@@ -12,11 +12,18 @@ const getAllProducts = async () => {
       products p
     JOIN  categories c
     ON p.category_id = c.id
-  `)
+  `;
+
+  if (categoryId) {
+    sql += ` WHERE p.category_id = ${categoryId}`;
+  }
+
+  return await dataSource.query();
 };
 
 const getProduct = async (productId) => {
-  const [result] = await dataSource.query(`
+  const [result] = await dataSource.query(
+    `
     SELECT
       p.id,
       p.name,
@@ -36,23 +43,24 @@ const getProduct = async (productId) => {
     ON
       p.id = i.product_id
     WHERE 
-      p.id = ?`, [productId]
-  )
+      p.id = ?`,
+    [productId]
+  );
 
-  if(typeof result.image_url == "string"){
-    result.image_url = result.image_url.replace("[",'');
-    result.image_url = result.image_url.replace("]",'');
-    result.image_url = result.image_url.replace(/"/g,'');
-    result.image_url = result.image_url.replace(/ /g,'');
-    result.image_url = result.image_url.split(",");
+  if (typeof result.image_url == 'string') {
+    result.image_url = result.image_url.replace('[', '');
+    result.image_url = result.image_url.replace(']', '');
+    result.image_url = result.image_url.replace(/"/g, '');
+    result.image_url = result.image_url.replace(/ /g, '');
+    result.image_url = result.image_url.split(',');
   }
 
-  return result
-
+  return result;
 };
 
-  const getcategoryProducts = async (categoryId) => {
-    const result = await dataSource.query(`
+const getcategoryProducts = async (categoryId) => {
+  const result = await dataSource.query(
+    `
       SELECT
         id,
         name,
@@ -62,17 +70,15 @@ const getProduct = async (productId) => {
       FROM 
         products
       WHERE 
-        category_id = ?`
-    , [categoryId]
-    )
+        category_id = ?`,
+    [categoryId]
+  );
 
-    return result
-    
+  return result;
 };
 
-
-module.exports = { 
-    getAllProducts,
-    getProduct,
-    getcategoryProducts
-}
+module.exports = {
+  getAllProducts,
+  getProduct,
+  getcategoryProducts,
+};

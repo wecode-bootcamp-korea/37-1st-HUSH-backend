@@ -1,11 +1,11 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
 
 const userRouter = require('./userRouter');
-const reviewRouter = require('./reviewRouter')
+const reviewRouter = require('./reviewRouter');
 const orderRouter = require('./orderRouter');
 const productRouter = require('./productRouter');
-const searchRouter = require('./searchRouter')
+const searchRouter = require('./searchRouter');
 const cartRouter = require('./cartRouter');
 const likeRouter = require('./likeRouter');
 
@@ -18,3 +18,4 @@ router.use('/cart', cartRouter);
 router.use('/like', likeRouter);
 
 module.exports = router;
+

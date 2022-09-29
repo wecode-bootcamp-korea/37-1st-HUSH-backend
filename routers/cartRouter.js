@@ -1,13 +1,14 @@
 const express = require('express');
 
 const { cartController } = require('../controllers');
-const { validToken } = require('../utils/auth')
+const { validToken } = require('../utils/auth');
 
 const router = express.Router();
 
-router.post('/addCart', validToken, cartController.addCart)
-router.get('/listUp', validToken, cartController.listUpCart)
-router.patch('', validToken, cartController.quantControl)
-router.delete('', validToken, cartController.listDelete)
+router.post('/addCart', validToken, cartController.addCart);
+router.get('/listUp', validToken, cartController.listUpCart);
+router.patch('', validToken, cartController.quantControl);
+router.delete('', validToken, cartController.listDelete);
 
 module.exports = router;
+

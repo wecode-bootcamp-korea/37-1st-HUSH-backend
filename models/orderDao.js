@@ -1,22 +1,22 @@
 const dataSource = require('./dataSource');
 
-const checkPoint = async (userId) => {    
-
-    const [result] = await dataSource.query(`
+const checkPoint = async (userId) => {
+  const [result] = await dataSource.query(
+    `
         SELECT 
             point 
         FROM 
             users 
         WHERE id = ?`,
-        [userId]
-    )
+    [userId]
+  );
 
-    return result.point
-}
+  return result.point;
+};
 
-const createOrder = async (userId, reqMessage, address) => {
-
-    await dataSource.query(`
+const createOrder = async (queryRunner, userId, reqMessage, address) => {
+  await queryRunner.query(
+    `
         INSERT INTO orders (
             user_id,
             req_message,
@@ -26,88 +26,83 @@ const createOrder = async (userId, reqMessage, address) => {
                     ?,
                     ?
             )`,
-        [userId, reqMessage, address]
-    )
+    [userId, reqMessage, address]
+  );
 
-    const orderId = await dataSource.query(`
+  const orderId = await dataSource.query(
+    `
         SELECT 
             id
         FROM orders
-        WHERE user_id = ?`, [userId]
-        )
+        WHERE user_id = ?`,
+    [userId]
+  );
 
-        return orderId[orderId.length-1].id;
+  return orderId[orderId.length - 1].id;
+};
 
-}
-
-const getCart= async (userId, productId) => {
-
-    const items = await dataSource.query(`
+const getCart = async (userId, productId) => {
+  const items = await dataSource.query(
+    `
         SELECT 
             product_id,
             quantity
         FROM 
             carts
         WHERE 
-            user_id = ? AND product_id in (?)`
-    ,[userId, productId]
-    )
+            user_id = ? AND product_id in (?)`,
+    [userId, productId]
+  );
 
-    return items;
+  return items;
+};
 
-  }
+const createOrderItems = async (orderId, items) => {
+  let tmp = '';
+  items.map((el) => {
+    tmp += `(${orderId}, ${el.product_id}, ${el.quantity}),`;
+  });
+  tmp = tmp.slice(0, -1);
 
-
-const createOrderItems = async (orderId, items) => {    
-
-    let tmp = "";
-    items.map(el => {
-        tmp += `(${orderId}, ${el.product_id}, ${el.quantity}),`
-    })
-    tmp = tmp.slice(0,-1);
-
-    await dataSource.query(`
+  await dataSource.query(
+    `
         INSERT INTO order_items (
             order_id,
             product_id,
             quantity
             ) VALUES ` + tmp
-    )    
+  );
 
+  return;
+};
 
-    return;
-}
-
-const deleteCart = async (userId, productId) => {    
-
-    await dataSource.query(`
+const deleteCart = async (userId, productId) => {
+  await dataSource.query(
+    `
         DELETE FROM 
             carts
         WHERE 
             user_id = ? AND 
-            product_id in (?)`
-        ,
+            product_id in (?)`,
     [userId, productId]
-    )    
+  );
 
-    return;
+  return;
+};
 
-}
-
-const deductPoint = async (userId, total) => {    
-
-    return await dataSource.query(`
+const deductPoint = async (userId, total) => {
+  return await dataSource.query(
+    `
         UPDATE users 
         SET point = point - ? 
         WHERE id = ?`,
-        [total, userId]
-    )
+    [total, userId]
+  );
+};
 
-}
-
-const checkStock = async (productId) => {    
-
-    const result = await dataSource.query(`
+const checkStock = async (productId) => {
+  const result = await dataSource.query(
+    `
     SELECT (
         CASE WHEN 
             p.stock - c.quantity < 0 THEN p.id 
@@ -118,16 +113,15 @@ const checkStock = async (productId) => {
         carts c 
         ON p.id = c.product_id 
     WHERE p.id in (?) AND 
-        p.stock - c.quantity < 0`, [productId]
-    )
-    return result;
+        p.stock - c.quantity < 0`,
+    [productId]
+  );
+  return result;
+};
 
-}
-
-
-const deleteProductStock = async (productId) => {    
-
-    await dataSource.query(`
+const deleteProductStock = async (productId) => {
+  await dataSource.query(
+    `
         UPDATE 
             products p
         INNER JOIN 
@@ -136,17 +130,16 @@ const deleteProductStock = async (productId) => {
             p.id = c.product_id 
         SET 
             p.stock = p.stock - c.quantity
-        WHERE p.id in (?)`,[productId]
-    )
+        WHERE p.id in (?)`,
+    [productId]
+  );
 
+  return;
+};
 
-    return;
-
-}
-
-const getCartInfo = async (userId, productId) => {    
-
-    const result = await dataSource.query(`
+const getCartInfo = async (userId, productId) => {
+  const result = await dataSource.query(
+    `
         SELECT
             carts.user_id,
             p.name,
@@ -168,15 +161,16 @@ const getCartInfo = async (userId, productId) => {
         WHERE 
             carts.user_id = ? AND
             p.id in (?)
-    `, [userId, productId]
-    )
+    `,
+    [userId, productId]
+  );
 
-    return result;
-}
+  return result;
+};
 
-const getOrders = async ( user_id, productId ) => {
-
-    const [result] = await dataSource.query(`
+const getOrders = async (user_id, productId) => {
+  const [result] = await dataSource.query(
+    `
         SELECT EXISTS(
         SELECT 
             * 
@@ -189,22 +183,21 @@ const getOrders = async ( user_id, productId ) => {
         WHERE 
             o.user_id = ? AND 
             i.product_id = ?
-        ) AS boolean`
-    ,[user_id, productId]
-    )
-   return result.boolean;   
-}
+        ) AS boolean`,
+    [user_id, productId]
+  );
+  return result.boolean;
+};
 
 module.exports = {
-    getCartInfo,
-    getOrders,
-    checkPoint,
-    createOrder,
-    getCart,
-    createOrderItems,
-    deleteCart,
-    deductPoint,
-    checkStock,
-    deleteProductStock
-
-}
+  getCartInfo,
+  getOrders,
+  checkPoint,
+  createOrder,
+  getCart,
+  createOrderItems,
+  deleteCart,
+  deductPoint,
+  checkStock,
+  deleteProductStock,
+};
