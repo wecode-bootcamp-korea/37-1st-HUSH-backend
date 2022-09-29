@@ -10,10 +10,8 @@ const getCartInfo = catchAsync(async (req, res) => {
   const productId = req.query.productId;
 
   const cartInfo = await orderService.getCartInfo(userId, productId);
-
-  console.log(cartInfo)
       
-  res.status(201).json({ message : cartInfo});
+  return res.status(201).json({ message : cartInfo});
   
 })
 
@@ -24,9 +22,9 @@ const createOrder = catchAsync(async (req, res) => {
 
   await orderService.createOrder(userId, productId, total, reqMessage, address);
 
-  res.status(201).json({ message : "ORDER_SUCCESS"});
+  return res.status(201).json({ message : "ORDER_SUCCESS"});
 
-  })
+})
 
   module.exports = {
     getCartInfo,

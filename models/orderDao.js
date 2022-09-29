@@ -174,22 +174,25 @@ const getCartInfo = async (userId, productId) => {
     return result;
 }
 
-const getOrders = async ( user_id, product_id ) => {
+const getOrders = async ( user_id, productId ) => {
 
-    const [ orders ] = await dataSource.query( 
-      `select exists(
-      select
-       i.product_id  
-       from orders o
-       inner join users u 
-       on o.user_id = u.id
-       inner join order_items i
-       on o.id = i.order_id
-       where u.id = ?
-       ) as product_id`,
-    [user_id, product_id]
- )
-   return orders;   
+    const [result] = await dataSource.query(`
+        SELECT EXISTS(
+        SELECT 
+            * 
+        FROM
+            order_items i 
+        JOIN 
+            orders o 
+        ON  
+            i.order_id = o.id 
+        WHERE 
+            o.user_id = ? AND 
+            i.product_id = ?
+        ) AS boolean`
+    ,[user_id, productId]
+    )
+   return result.boolean;   
 }
 
 module.exports = {

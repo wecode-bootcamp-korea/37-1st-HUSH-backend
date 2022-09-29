@@ -1,19 +1,20 @@
 const dataSource = require('./dataSource')
 
-	const addCart = async (product_id, quantity, userId) => {
-		const result = await dataSource.query(`
-		INSERT INTO carts (
-			user_id,
-			product_id,
-			quantity
-			) VALUES (
-				?,
-				?,
-				?
-				)`, [userId, product_id, quantity]
+const addCart = async (product_id, quantity, userId) => {
+	return await dataSource.query(`
+	INSERT INTO carts(
+		user_id,
+		product_id,
+		quantity
+	) VALUES (
+		?,
+		?,
+		?
+	) ON DUPLICATE KEY UPDATE 
+		quantity = quantity + ?
+	`, [userId, product_id, quantity, quantity]
 	)
-	
-	return result.insertId
+
 }
 
 const listUpCart = (userId) => {
@@ -35,29 +36,34 @@ const listUpCart = (userId) => {
 
 const listDelete = async (productId, userId) => {
 	
-	await dataSource.query(`
+	return await dataSource.query(`
 	DELETE FROM carts
 	WHERE
-	user_id=? AND product_id IN (?);`,
+	user_id=? AND 
+	product_id IN (?);`,
 	[userId, productId]
 	)
-	return listUpCart(userId)
+
 }
 
 const quantControl = async (productId, quantity, userId) => {
 	
-	dataSource.query(`
-	UPDATE carts
-	SET quantity=?
-	WHERE product_id=? AND user_id=?`,
-	[quantity, productId, userId]
+	return dataSource.query(`
+	UPDATE 
+		carts
+	SET 
+		quantity= quantity + ?
+	WHERE 
+		product_id=? AND 
+		user_id=?`
+	,[quantity, productId, userId]
 	)
-	return listUpCart(userId)
+
 }
 
 module.exports = {
 	addCart,
-  listUpCart,
+	listUpCart,
 	listDelete,
-	quantControl,
+	quantControl
 }

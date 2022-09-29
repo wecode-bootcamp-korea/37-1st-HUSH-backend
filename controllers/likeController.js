@@ -7,21 +7,33 @@ const deleteLike = catchAsync(async (req, res) => {
   
     await likeService.deleteLike(userId, productId);
       
-    res.status(200).json({ message : "DELETELIKE_SUCCESS"});
+    return res.status(200).json({ message : "DELETELIKE_SUCCESS"});
   
   })
   
-  const getLikeList = catchAsync(async (req, res) => {
-    const { userId } = req;
-      
-      const likes = await likeService.getLikeList(userId);
-      
-      res.status(200).json({ likes });
-  
-  })
+const getLikeList = catchAsync(async (req, res) => {
+  const userId = req.userId;
+    
+  const likes = await likeService.getLikeList(userId);
+    
+  return res.status(200).json({ message : likes });
+
+})
+
+const inputLike = catchAsync(async (req, res) => {
+    
+  const userId = req.userId;
+  const productId = req.params.productId;
+    
+  await likeService.inputLike(userId, productId);
+    
+  return res.status(201).json({ message : "INPUTLIKE_SUCCESS"});
+
+})
   module.exports = {
     deleteLike,
-    getLikeList
+    getLikeList,
+    inputLike
 
 }
   

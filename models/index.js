@@ -5,6 +5,7 @@ const orderDao = require('./orderDao')
 const userDao = require('./userDao');
 const cartDao = require('./cartDao')
 const searchDao = require('./searchDao')
+const likeDao = require('./likeDao')
 
 module.exports = {
   dataSource,
@@ -13,5 +14,6 @@ module.exports = {
   cartDao,
   reviewDao,
   orderDao,
-  searchDao
+  searchDao,
+  likeDao
 }

@@ -1,25 +1,20 @@
 const dataSource = require('./dataSource')
 
 const getReviewExists = async ( user_id, product_id ) => {
-    try {
-        const [ review ] = await dataSource.query(
-            `SELECT EXISTS(
-                SELECT
-                    *
-                FROM reviews
-                WHERE user_id = ? AND product_id = ?
-            ) AS boolean`,
-            [ user_id, product_id ]
-        )
-        return review.boolean
-    } catch (err) {
-        const error = new Error(`INVALID_DATA_INPUT`);
-        error.statusCode = 500;
-        throw error;
-    }
+
+    const [review] = await dataSource.query(
+        `SELECT EXISTS(
+            SELECT
+                *
+            FROM reviews
+            WHERE user_id = ? AND product_id = ?
+        ) AS boolean`,
+        [ user_id, product_id ]
+    )
+    return review.boolean
 }
 
-const postReviews = async ( user_id, product_id, content) => {
+const postReview = async ( user_id, product_id, content) => {
 	console.log(content)
 	return await dataSource.query(`
 		INSERT INTO reviews(
@@ -27,7 +22,7 @@ const postReviews = async ( user_id, product_id, content) => {
 			product_id,
 			content
 		) VALUES (?, ?, ?);
-			`, [ user_id, product_id, content ]
+		`, [ user_id, product_id, content ]
 	);
 
 }
@@ -60,7 +55,7 @@ const modifyReview = async (userId, productId, content) => {
         WHERE 
             user_id = ? AND
             product_id = ?
-        `,[ content, userId, productId ]
+    `,[ content, userId, productId ]
     )
     
     return;
@@ -68,23 +63,35 @@ const modifyReview = async (userId, productId, content) => {
     
 };
 
-const getreviews = async (product_id) => {
+const getReviews = async (productId) => {
+
     return await dataSource.query(`
-	select u.name as userName, p.name as productName, r.content, r.created_at as createdAt
-	from reviews r
-	join users u
-	on u.id=r.user_id
-	join products p
-	on p.id=r.product_id
-	where product_id=?;
-        `, [product_id])
-  };
+        SELECT 
+            u.name as userName, 
+            p.name as productName, 
+            r.content, 
+            r.created_at as createdAt
+        FROM 
+            reviews r
+        JOIN 
+            users u
+        ON 
+            u.id=r.user_id
+        JOIN 
+            products p
+        ON 
+            p.id=r.product_id
+        WHERE 
+            product_id=?;
+    `, [productId])
+
+};
 
 
   module.exports = {
     checkUser,
-    postReviews,
+    postReview,
 	modifyReview,
-    getreviews,
+    getReviews,
 	getReviewExists
  }

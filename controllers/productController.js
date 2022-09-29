@@ -1,22 +1,13 @@
 const  { productService }  = require('../services');
 const { catchAsync } = require('../utils/error')
 
-const inputLike = catchAsync(async (req, res) => {
-    
-    const userId = req.userId;
-    const productId = req.params.productId;
-      
-    await productService.inputLike(userId, productId);
-      
-    res.status(201).json({ message : "INPUTLIKE_SUCCESS"});
-  
-  })
-
   const getAllProducts = catchAsync(async (req, res) => {
 
-    const products = await productService.getAllProducts();
+    const categoryId = req.params.categoryId;
+
+    const products = await productService.getAllProducts(categoryId);
   
-    return res.status(200).json({ data : products });
+    return res.status(200).json({ message : products });
   })
   
   const getProduct = catchAsync(async (req, res) => {
@@ -25,11 +16,10 @@ const inputLike = catchAsync(async (req, res) => {
       
       const products = await productService.getProduct(productId)
   
-      res.status(200).json({ products })
+      return res.status(200).json({ message : products })
   })
 
   module.exports = {
-    inputLike,
     getAllProducts,
     getProduct
 }

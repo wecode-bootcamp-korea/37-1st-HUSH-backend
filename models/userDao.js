@@ -24,8 +24,8 @@ const checkUser = async (email) => {
 		WHERE email = ?) AS boolean`,
       [email]
     )
-	console.log(result.boolean)
-	return result;
+
+	return result.boolean;
   }
   
   const getUserByEmail = async (email) => {
@@ -38,11 +38,13 @@ const checkUser = async (email) => {
 		FROM users
 		WHERE email=?`, [email]
 	)
+
+	return user;
 }
 
 const getPoint = async (userId) => {
 
-	return await dataSource.query(`
+	const [result] = await dataSource.query(`
 		SELECT 
 			point
 		FROM 
@@ -50,6 +52,8 @@ const getPoint = async (userId) => {
 		WHERE users.id = ?`,
 			[userId]
 	)
+	
+	return result;s
 }
 
 const getUserInfo = async (userId) => {

@@ -5,31 +5,33 @@ const  { userService }  = require('../services');
 const { catchAsync } = require('../utils/error');
 
 const signUp = catchAsync(async (req, res) => {
-    const { email, password, name, address } = req.body;
-      
-      await userService.signUp(email, password, name, address);
-      
-      res.status(201).json({ message : "SIGN_UP_SUCCESS"});
+
+  const { email, password, name, address } = req.body;
+    
+  await userService.signUp(email, password, name, address);
+    
+  return res.status(201).json({ message : "SIGN_UP_SUCCESS"});
   
-  })
+})
 
-  const checkUser = catchAsync(async (req, res) => {
-    const { email } = req.body;
-      
-    const result = await userService.checkUser(email);
+const checkUser = catchAsync(async (req, res) => {
+  const { email } = req.body;
+    
+  const result = await userService.checkUser(email);
 
-    if (!result) return res.status(200).json({ message : "EXCESS_SUCCESS"});
+  if (+result) return res.status(400).json({ message : "KEY_ALREADY_EXISTS"});
 
-    res.status(200).json({ message : "KEY_ALREADY_EXISTS"});
+  return res.status(200).json({ message : "EXCESS_SUCCESS"});
 
-  })
+})
 
-  const signIn = catchAsync(async (req, res) => {
+const signIn = catchAsync(async (req, res) => {
+
 	const { email, password } = req.body;
 
 	const accessToken = await userService.signIn(email, password)
 
-	res.status(200).json({ accessToken })
+	return res.status(200).json({ accessToken })
 
 })
 
@@ -38,18 +40,19 @@ const signUp = catchAsync(async (req, res) => {
 const getPoint = catchAsync(async (req, res) => {
   const userId = req.userId;
     
-    const point = await userService.getPoint(userId);
+  const point = await userService.getPoint(userId);
     
-    res.status(200).json({ message : point });
+  return res.status(200).json({ message : point });
 
 })
 
 const getUserInfo = catchAsync(async (req, res) => {
+
   const userId = req.userId;
     
   const getUserInfo = await userService.getUserInfo(userId);
     
-  res.status(200).json({ message : getUserInfo });
+  return res.status(200).json({ message : getUserInfo });
 
 })
 

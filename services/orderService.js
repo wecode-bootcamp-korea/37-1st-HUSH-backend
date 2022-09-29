@@ -41,10 +41,12 @@ const createOrder = async (userId, productId, total, reqMessage, address) => {
 		throw error
 
     } finally {
-        // you need to release query runner which is manually created:
-        //return await queryRunner.release();
+
+        await queryRunner.release();
 
     }
+
+    return;
 
 }
 

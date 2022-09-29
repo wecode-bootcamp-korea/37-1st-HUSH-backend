@@ -1,21 +1,23 @@
 const { reviewDao, orderDao } = require('../models')
 
-const postReview = async (user_id, product_id, content) => {
 
-    const order = await orderDao.getOrders(user_id, product_id)
-    if (!order){
-        const err = new Error("You have not purchased a product");
+const postReview = async (userId, productId, content) => {
+
+    const checkUserForReview = await orderDao.getOrders(userId, productId)
+
+    if (!+checkUserForReview){
+        const err = new Error("NO_PERMISSION");
         err.statusCode = 403;
         throw err
     }
-    const getReviewExist = await reviewDao.getReviewExists( user_id, product_id);
+    const getReviewExist = await reviewDao.getReviewExists(userId, productId);
 
     if ( +getReviewExist ) {
-        const err = new Error("Only one review can be created")
+        const err = new Error("REVIEW_ALREADY_EXISTS")
         err.statusCode = 403;
         throw err
     }
-    await reviewDao.postReview(user_id, product_id, content)
+    await reviewDao.postReview(userId, productId, content)
     return;
 }
 
@@ -24,6 +26,7 @@ const modifyReview = async (userId, productId, content) => {
     const checkUser = await reviewDao.checkUser(userId, productId);
     if(!+checkUser){
         const error = new Error("NO_PERMMISION");
+        
         error.statusCode = 400;
         throw error;
     }
@@ -31,8 +34,8 @@ const modifyReview = async (userId, productId, content) => {
     return await reviewDao.modifyReview(userId, productId, content);
 }
 
-const getReviews = async (product_id) => {
-	return await reviewDao.getReviews(product_id)
+const getReviews = async (productId) => {
+	return await reviewDao.getReviews(productId)
 }
 
 module.exports = {

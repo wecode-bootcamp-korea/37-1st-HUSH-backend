@@ -2,12 +2,15 @@ const { reviewService } = require('../services')
 const { catchAsync }  = require('../utils/error')
 
 const postReview = catchAsync(async (req, res) => {
-    const {product_id} = req.params;
+    const { productId } = req.params;
+
     const content = req.body.content;
-    const user_id =  req.userId
-   await reviewService.postReview( user_id, product_id, content);    
+
+    const userId =  req.userId
+
+    await reviewService.postReview( userId, productId, content);    
    
-    return res.status(200).json({ message: "Review_Success"});
+    return res.status(200).json({ message: "REVIEW_SUCCESS"});
 })
 
 const modifyReview = catchAsync(async (req, res) => {
@@ -20,14 +23,14 @@ const modifyReview = catchAsync(async (req, res) => {
     
     await reviewService.modifyReview(userId, productId, content)
 
-    res.status(200).json({ message : 'MODIFYREVIEW_SUCCESS' })
+    return res.status(200).json({ message : 'MODIFYREVIEW_SUCCESS' })
 })
 
 const getReviews = catchAsync(async (req, res) => {
-    const {product_id} = req.params; 
-    const reviews = await reviewService.getreviews(product_id);
+    const {productId} = req.params; 
+    const reviews = await reviewService.getReviews(productId);
 
-    return res.status(200).json({ data : reviews });
+    return res.status(200).json({ message : reviews });
 })
 
 module.exports = {

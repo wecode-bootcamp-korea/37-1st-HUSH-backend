@@ -4,6 +4,7 @@ const cartService = require('./cartService')
 const reviewService = require('./reviewService')
 const orderService = require('./orderService')
 const searchService = require('./searchService')
+const likeService = require('././likeService')
 
 module.exports = {
   productService,
@@ -11,5 +12,6 @@ module.exports = {
   cartService,
   reviewService,
   orderService,
-  searchService
+  searchService,
+  likeService
 }
