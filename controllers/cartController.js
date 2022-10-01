@@ -13,11 +13,13 @@ const addCart = catchAsync(async (req, res) => {
 })
 
 const listUpCart = catchAsync(async (req, res) => {
-	const { userId } = req.body
-	
-  const data = await cartService.listUpCart(userId)
+
+	const userId = req.userId;
+
+  	const data = await cartService.listUpCart(userId)
 	
 	res.status(200).json({ data })
+	d
 }) 
 
 const listDelete = catchAsync(async (req, res) => {

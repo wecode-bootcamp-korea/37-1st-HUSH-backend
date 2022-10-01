@@ -61,7 +61,8 @@ const getLikeList = async (userId) => {
 	  SELECT 
 		  products.id as productId, 
 		  products.name as productName, 
-		  products.price, 
+		  products.price,
+		  products.thumbnail_image_url,
 		  categories.name as categoryName 
 	  FROM 
 		  products 
@@ -85,6 +86,27 @@ const getPoint = async (userId) => {
 			[userId]
 	)
 }
+
+const getUserInfo = async (userId) => {
+
+	const [result] = await dataSource.query(`
+		SELECT 
+			id, 
+			email, 
+			name, 
+			address, 
+			point 
+		FROM 
+			users 
+		WHERE 
+			id = ?;`
+		,[userId]
+	)
+
+	return result;
+	
+}
+  
   
 
 module.exports = { 
@@ -93,5 +115,6 @@ module.exports = {
     getUserByEmail,
 	deleteLike,
 	getLikeList,
-	getPoint
+	getPoint,
+	getUserInfo
 }

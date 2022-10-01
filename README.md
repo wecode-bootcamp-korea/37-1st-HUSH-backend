@@ -1,5 +1,3 @@
-README.md
-
 1. 프로젝트 소개 : 입욕제, 세정제, 화장용품을 판매하는 온라인 커머스 사이트를 클론코딩하여 디저트 판매 커머스 사이트 구현
 
 2. 프로젝트 기간 : 2022.09.19 ~ 2022.09.30
@@ -26,4 +24,8 @@ README.md
 
 6. ERD
 
-<img width="1001" alt="image (1)" src="https://user-images.githubusercontent.com/107356126/193213444-1c8f5fea-d936-4669-b401-dcf04e777047.png">
+# <img width="1001" alt="image (1)" src="https://user-images.githubusercontent.com/107356126/193213444-1c8f5fea-d936-4669-b401-dcf04e777047.png">
+
+# 37-1st-HUSH-backend
+
+> > > > > > > eb144836eb03b76205db87e1ade1941f215d4f5a

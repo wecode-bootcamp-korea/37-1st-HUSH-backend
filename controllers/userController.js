@@ -36,6 +36,7 @@ const signUp = catchAsync(async (req, res) => {
 const deleteLike = catchAsync(async (req, res) => {
   const productId  = req.query.productId;
   const userId = req.userId;
+
   await userService.deleteLike(userId, productId);
     
   res.status(200).json({ message : "DELETELIKE_SUCCESS"});
@@ -59,11 +60,22 @@ const getPoint = catchAsync(async (req, res) => {
     res.status(200).json({ message : point });
 
 })
+
+const getUserInfo = catchAsync(async (req, res) => {
+  const userId = req.userId;
+    
+  const getUserInfo = await userService.getUserInfo(userId);
+    
+  res.status(200).json({ message : getUserInfo });
+
+})
+
   module.exports = {
 	  signUp,
     checkUser,
     signIn,
     deleteLike,
     getLikeList,
-    getPoint
+    getPoint,
+    getUserInfo
 }
