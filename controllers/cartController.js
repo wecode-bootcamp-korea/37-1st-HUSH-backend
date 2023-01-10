@@ -19,7 +19,7 @@ const listUpCart = catchAsync(async (req, res) => {
   	const data = await cartService.listUpCart(userId)
 	
 	res.status(200).json({ data })
-	d
+	
 }) 
 
 const listDelete = catchAsync(async (req, res) => {

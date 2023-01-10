@@ -1,7 +1,7 @@
 const appDataSource = require('./dataSource')
 
 	const addCart = async (product_id, quantity, userId) => {
-		const result = await dataSource.query(`
+		const result = await appDataSource.query(`
 		INSERT INTO carts (
 			user_id,
 			product_id,
